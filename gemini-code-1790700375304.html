@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة متابعة الأسهم - السوق السعودي والأمريكي</title>
+  <style>
+    :root {
+      --bg-color: #131722;
+      --card-bg: #1e222d;
+      --text-color: #d1d4dc;
+      --accent-color: #2962ff;
+      --border-color: #2a2e39;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background-color: var(--card-bg);
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+      color: #fff;
+    }
+
+    /* Ticker Tape Widget */
+    .ticker-container {
+      width: 100%;
+      height: 46px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    /* Main Dashboard Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 15px;
+      padding: 15px;
+      flex: 1;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Card Panels */
+    .panel {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      padding: 12px 15px;
+      font-weight: bold;
+      border-bottom: 1px solid var(--border-color);
+      background-color: rgba(255, 255, 255, 0.02);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chart-panel {
+      min-height: 550px;
+    }
+
+    .watchlist-panel {
+      height: 100%;
+      min-height: 550px;
+    }
+
+    /* Financials & Overview Section */
+    .financials-section {
+      padding: 15px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 15px;
+    }
+
+    .financials-card {
+      height: 450px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>📈 لوحة متابعة السوق السعودي (TASI) والأمريكي (US)</h1>
+  </header>
+
+  <!-- 1. Ticker Tape Widget (شريط الأسعار المباشر العلوي) -->
+  <div class="ticker-container">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+      {
+        "symbols": [
+          { "proName": "TADAWUL:1120", "title": "مصرف الراجحي" },
+          { "proName": "TADAWUL:2222", "title": "أرامكو السعودية" },
+          { "proName": "TADAWUL:7010", "title": "إس تي سي" },
+          { "proName": "NASDAQ:AAPL", "title": "Apple" },
+          { "proName": "NASDAQ:MSFT", "title": "Microsoft" },
+          { "proName": "NASDAQ:NVDA", "title": "NVIDIA" },
+          { "proName": "NASDAQ:TSLA", "title": "Tesla" }
+        ],
+        "showSymbolLogo": true,
+        "colorTheme": "dark",
+        "isTransparent": false,
+        "displayMode": "adaptive",
+        "locale": "ar_AE"
+      }
+      </script>
+    </div>
+  </div>
+
+  <!-- 2. Main Dashboard (الشارت الرئيسي + قائمة المتابعة) -->
+  <div class="dashboard-grid">
+    
+    <!-- الشارت التفاعلي والمتوسطات المتحركة (Advanced Real-Time Chart) -->
+    <div class="panel chart-panel">
+      <div class="panel-header">
+        <span>الرسم البياني التفاعلي (المتوسطات والتحليل الفني)</span>
+      </div>
+      <div class="tradingview-widget-container" style="height:100%;width:100%">
+        <div id="tradingview_chart" style="height:calc(100% - 32px);width:100%"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+        <script type="text/javascript">
+          new TradingView.widget({
+            "autosize": true,
+            "symbol": "TADAWUL:1120",
+            "interval": "D",
+            "timezone": "Asia/Riyadh",
+            "theme": "dark",
+            "style": "1",
+            "locale": "ar_AE",
+            "toolbar_bg": "#f1f3f6",
+            "enable_publishing": false,
+            "allow_symbol_change": true,
+            "container_id": "tradingview_chart",
+            "studies": [
+              "STD;MA%Ribbon", // متوسطات متحركة
+              "STD;RSI"        // مؤشر القوة النسبية
+            ]
+          });
+        </script>
+      </div>
+    </div>
+
+    <!-- قائمة المتابعة المخصصة (Market Overview / Watchlist) -->
+    <div class="panel watchlist-panel">
+      <div class="panel-header">
+        <span>قائمة الأسهم المختارة</span>
+      </div>
+      <div class="tradingview-widget-container" style="height:100%">
+        <div class="tradingview-widget-container__widget" style="height:100%"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+        {
+          "colorTheme": "dark",
+          "dateRange": "12M",
+          "showChart": true,
+          "locale": "ar_AE",
+          "largeChartUrl": "",
+          "isTransparent": false,
+          "showSymbolLogo": true,
+          "showFloatingTooltip": false,
+          "width": "100%",
+          "height": "100%",
+          "tabs": [
+            {
+              "title": "السوق السعودي",
+              "symbols": [
+                { "s": "TADAWUL:1120", "d": "الراجحي" },
+                { "s": "TADAWUL:2222", "d": "أرامكو" },
+                { "s": "TADAWUL:7010", "d": "STC" },
+                { "s": "TADAWUL:1180", "d": "الأهلي" }
+              ]
+            },
+            {
+              "title": "السوق الأمريكي",
+              "symbols": [
+                { "s": "NASDAQ:AAPL", "d": "Apple" },
+                { "s": "NASDAQ:MSFT", "d": "Microsoft" },
+                { "s": "NASDAQ:NVDA", "d": "NVIDIA" },
+                { "s": "NASDAQ:TSLA", "d": "Tesla" }
+              ]
+            }
+          ]
+        }
+        </script>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 3. Financials & Earnings Section (تقارير الأرباح والبيانات المالية) -->
+  <div class="financials-section">
+    
+    <!-- الأرباح والبيانات المالية (Financials Widget) -->
+    <div class="panel financials-card">
+      <div class="panel-header">
+        <span>البيانات المالية وتقارير الأرباح والخسائر</span>
+      </div>
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-financials.js" async>
+        {
+          "colorTheme": "dark",
+          "isTransparent": false,
+          "largeChartUrl": "",
+          "displayMode": "regular",
+          "width": "100%",
+          "height": "100%",
+          "symbol": "TADAWUL:1120",
+          "locale": "ar_AE"
+        }
+        </script>
+      </div>
+    </div>
+
+    <!-- التحليل الفني والمؤشرات (Technical Analysis Widget) -->
+    <div class="panel financials-card">
+      <div class="panel-header">
+        <span>ملخص التقييم الفني والمؤشرات</span>
+      </div>
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+        {
+          "interval": "1D",
+          "width": "100%",
+          "isTransparent": false,
+          "height": "100%",
+          "symbol": "TADAWUL:1120",
+          "showIntervalTabs": true,
+          "displayMode": "single",
+          "locale": "ar_AE",
+          "colorTheme": "dark"
+        }
+        </script>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
