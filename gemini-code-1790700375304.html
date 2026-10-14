@@ -46,7 +46,7 @@
 </head>
 <body class="p-3 md:p-6 text-slate-200">
 
-    <!-- 1. FIRST TIME INITIAL SETUP FORM (شاشة إعداد المدير الأساسي لأول مرة) -->
+    <!-- 1. FIRST TIME INITIAL SETUP FORM -->
     <div id="setup-container" class="hidden flex items-center justify-center min-h-[90vh]">
         <div class="w-full max-w-md">
             <div class="text-center mb-8">
@@ -60,8 +60,8 @@
             <div class="glass-panel p-8">
                 <div class="space-y-4 text-xs">
                     <div>
-                        <label class="block text-slate-300 mb-1.5 font-medium">اختر اسم المستخدم للمدير</label>
-                        <input type="text" id="setup-username" placeholder="مثال: admin" 
+                        <label class="block text-slate-300 mb-1.5 font-medium">اختر اسم المستخدم للمدير الأساسي</label>
+                        <input type="text" id="setup-username" placeholder="مثال: ALI2026" 
                             class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
                     </div>
 
@@ -79,7 +79,7 @@
 
                     <button type="button" onclick="saveInitialAdmin()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 text-sm cursor-pointer mt-2">
                         <i data-lucide="check-circle" class="w-4 h-4"></i>
-                        <span>حفظ وإنشاء الحساب</span>
+                        <span>حفظ وإنشاء حساب المدير الأساسي</span>
                     </button>
                 </div>
             </div>
@@ -87,7 +87,7 @@
     </div>
 
 
-    <!-- 2. LOGIN SECTION (شاشة تسجيل الدخول الاعتيادية) -->
+    <!-- 2. LOGIN SECTION -->
     <div id="login-container" class="flex items-center justify-center min-h-[90vh]">
         <div class="w-full max-w-md">
             <div class="text-center mb-8">
@@ -132,7 +132,7 @@
                     
                     <div class="text-center pt-2">
                         <button type="button" onclick="resetSystemData()" class="text-[11px] text-slate-500 hover:text-rose-400 underline cursor-pointer">
-                            إعادة ضبط بيانات النظام وحساب المدير
+                            إعادة ضبط بيانات النظام وحساب المدير الأساسي
                         </button>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
                     <h1 class="text-xl font-bold tracking-wide text-white">نظام إدارة المحافظ PortoFlow Pro</h1>
                     <p class="text-xs text-slate-400 mt-0.5 flex items-center gap-2">
                         <span id="role-badge" class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-semibold">
-                            مدير النظام (Admin)
+                            مدير النظام الأساسي
                         </span>
                         <span>•</span>
                         <span class="text-slate-400">المستخدم: <span id="logged-user-name" class="text-slate-200">المدير</span></span>
@@ -198,14 +198,13 @@
             </div>
         </header>
 
-        <!-- LIVE TICKERS SECTION -->
+        <!-- SEPARATE DYNAMIC TICKERS SECTION -->
         <div class="space-y-2">
-            <!-- Row 1: Market Indexes -->
             <div class="glass-panel-sm rounded-xl overflow-hidden py-2 border-slate-800/80">
                 <div class="flex items-center">
                     <div class="px-3 py-1 bg-amber-500/10 border-l border-slate-700/50 text-amber-400 text-xs font-bold shrink-0 flex items-center gap-1">
                         <i data-lucide="activity" class="w-3.5 h-3.5"></i>
-                        <span>مؤشرات الأسواق العالمية والمحلية</span>
+                        <span>مؤشرات الأسواق</span>
                     </div>
                     <div class="ticker-wrap flex-1 text-xs">
                         <div id="market-ticker-content" class="ticker-move flex items-center gap-8 px-4"></div>
@@ -213,12 +212,11 @@
                 </div>
             </div>
 
-            <!-- Row 2: Portfolio Stocks Ticker -->
             <div class="glass-panel-sm rounded-xl overflow-hidden py-2 border-slate-800/80">
                 <div class="flex items-center">
-                    <div class="px-3 py-1 bg-indigo-500/10 border-l border-slate-700/50 text-indigo-400 text-xs font-bold shrink-0 flex items-center gap-1">
+                    <div class="px-3 py-1 bg-emerald-500/10 border-l border-slate-700/50 text-emerald-400 text-xs font-bold shrink-0 flex items-center gap-1">
                         <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
-                        <span>أسعار أسهم المحفظة الحية</span>
+                        <span>أسهم المحفظة الحية (TASI / US)</span>
                     </div>
                     <div class="ticker-wrap flex-1 text-xs">
                         <div id="stock-ticker-content" class="ticker-move flex items-center gap-8 px-4">
@@ -231,37 +229,37 @@
 
         <!-- MAIN KPI CARDS -->
         <div id="kpi-cards-section" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="glass-panel p-4 relative overflow-hidden group">
+            <div class="glass-panel p-4 relative overflow-hidden group border-r-4 border-r-emerald-500">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-xs text-slate-400 font-medium">قيمة المحفظة الإجمالية</p>
-                        <h3 id="kpi-portfolio-value" class="text-xl font-bold text-white mt-1">0.00 ر.س</h3>
+                        <p class="text-xs text-slate-400 font-medium">قيمة المحفظة السعودية (TASI)</p>
+                        <h3 id="kpi-tasi-val" class="text-xl font-bold text-emerald-400 mt-1">0.00 ر.س</h3>
                     </div>
-                    <div class="p-2.5 bg-indigo-500/10 rounded-xl text-indigo-400 border border-indigo-500/20">
+                    <div class="p-2.5 bg-emerald-500/10 rounded-xl text-emerald-400 border border-emerald-500/20">
                         <i data-lucide="wallet" class="w-5 h-5"></i>
                     </div>
                 </div>
-                <p class="text-[11px] text-slate-400 mt-2">تحويل تلقائي بالسعر الثابت 3.75</p>
+                <p id="kpi-tasi-profit" class="text-[11px] text-slate-400 mt-2 font-medium">الأرباح: 0.00 ر.س</p>
             </div>
 
-            <div class="glass-panel p-4 relative overflow-hidden group">
+            <div class="glass-panel p-4 relative overflow-hidden group border-r-4 border-r-blue-500">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-xs text-slate-400 font-medium">أرباح / خسائر غير محققة</p>
-                        <h3 id="kpi-unrealized-profit" class="text-xl font-bold text-slate-400 mt-1">0.00 ر.س</h3>
+                        <p class="text-xs text-slate-400 font-medium">قيمة المحفظة الأمريكية (US)</p>
+                        <h3 id="kpi-us-val" class="text-xl font-bold text-blue-400 mt-1">$0.00</h3>
                     </div>
-                    <div class="p-2.5 bg-slate-500/10 rounded-xl text-slate-400 border border-slate-500/20">
-                        <i data-lucide="trending-up" class="w-5 h-5"></i>
+                    <div class="p-2.5 bg-blue-500/10 rounded-xl text-blue-400 border border-blue-500/20">
+                        <i data-lucide="dollar-sign" class="w-5 h-5"></i>
                     </div>
                 </div>
-                <p id="kpi-unrealized-ratio" class="text-[11px] text-slate-400 mt-2 font-medium">0.00% من رأس المال</p>
+                <p id="kpi-us-profit" class="text-[11px] text-slate-400 mt-2 font-medium">الأرباح: $0.00</p>
             </div>
 
             <div class="glass-panel p-4 relative overflow-hidden group">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-xs text-slate-400 font-medium">الأرباح المحققة</p>
-                        <h3 id="kpi-realized-profit" class="text-xl font-bold text-indigo-400 mt-1">0.00 ر.س</h3>
+                        <p class="text-xs text-slate-400 font-medium">الأرباح المحققة من البيع</p>
+                        <h3 id="kpi-realized-profit" class="text-xl font-bold text-indigo-400 mt-1">0.00 ر.س / $0.00</h3>
                     </div>
                     <div class="p-2.5 bg-indigo-500/10 rounded-xl text-indigo-400 border border-indigo-500/20">
                         <i data-lucide="coins" class="w-5 h-5"></i>
@@ -273,14 +271,14 @@
             <div class="glass-panel p-4 relative overflow-hidden group">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-xs text-slate-400 font-medium">الأسهم النشطة بالمحفظة</p>
+                        <p class="text-xs text-slate-400 font-medium">شركات المحفظة النشطة</p>
                         <h3 id="kpi-active-stocks" class="text-xl font-bold text-white mt-1">0 شركات</h3>
                     </div>
                     <div class="p-2.5 bg-amber-500/10 rounded-xl text-amber-400 border border-amber-500/20">
                         <i data-lucide="layers" class="w-5 h-5"></i>
                     </div>
                 </div>
-                <p class="text-[11px] text-slate-400 mt-2">حسب الصلاحيات والأسواق المتاحة</p>
+                <p id="kpi-stocks-breakdown" class="text-[11px] text-slate-400 mt-2">0 سعودية | 0 أمريكية</p>
             </div>
         </div>
 
@@ -290,7 +288,7 @@
                 <div class="flex flex-wrap justify-between items-center gap-4 mb-4 border-b border-slate-800 pb-3">
                     <h3 class="text-md font-bold text-white flex items-center gap-2">
                         <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-400"></i>
-                        <span>جدول أداء الأسهم وتفاصيل الجلسة الحية</span>
+                        <span>جدول أداء الأسهم الحية بالمحفظة (مفصولة حسب السوق)</span>
                     </h3>
                     <input type="text" id="search-table1" onkeyup="filterTable('table1', this.value)" placeholder="بحث بالسهم..." class="bg-slate-900 border border-slate-700/80 rounded-lg px-3 py-1 text-xs text-slate-200">
                 </div>
@@ -298,11 +296,11 @@
                     <table class="w-full text-xs text-right text-slate-300" id="table1">
                         <thead class="bg-slate-900/80 text-slate-400 border-b border-slate-800">
                             <tr>
-                                <th class="p-3">السهم / الرمز</th>
+                                <th class="p-3">اسم السهم / الشركة</th>
                                 <th class="p-3">السوق</th>
                                 <th class="p-3">الكمية</th>
                                 <th class="p-3">متوسط التكلفة</th>
-                                <th class="p-3">السعر الحالي</th>
+                                <th class="p-3">السعر الحالي الحقيقي</th>
                                 <th class="p-3">القيمة السوقية</th>
                                 <th class="p-3">الربح / الخسارة</th>
                                 <th class="p-3">الاتجاه</th>
@@ -313,7 +311,6 @@
                 </div>
             </div>
 
-            <!-- Table 2: Smart & Manual Analysis -->
             <div class="glass-panel p-5">
                 <div class="flex flex-wrap justify-between items-center gap-4 mb-4 border-b border-slate-800 pb-3">
                     <h3 class="text-md font-bold text-white flex items-center gap-2">
@@ -345,7 +342,7 @@
                 <div class="flex flex-wrap justify-between items-center gap-4 mb-4 border-b border-slate-800 pb-4">
                     <h2 class="text-lg font-bold text-white flex items-center gap-2">
                         <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-400"></i>
-                        <span>تسجيل عملية</span>
+                        <span>تسجيل عملية مفصولة</span>
                     </h2>
                     <button type="button" id="cancel-edit-btn" onclick="resetTradeForm()" class="hidden text-xs bg-rose-500/20 text-rose-400 px-3 py-1 rounded-lg border border-rose-500/30 cursor-pointer">إلغاء التعديل</button>
                 </div>
@@ -353,15 +350,15 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4 text-xs">
                     <input type="hidden" id="edit-tx-id" value="">
                     <div>
-                        <label class="block text-slate-400 mb-1">السوق</label>
+                        <label class="block text-slate-400 mb-1">اختر السوق</label>
                         <select id="input-market" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
-                            <option value="TASI">السوق السعودي (TASI)</option>
-                            <option value="US">السوق الأمريكي (US)</option>
+                            <option value="TASI">السوق السعودي (TASI - ر.س)</option>
+                            <option value="US">السوق الأمريكي (US - $)</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-slate-400 mb-1">رمز السهم</label>
-                        <input type="text" id="input-symbol" placeholder="2222 / AAPL" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200 uppercase">
+                        <label class="block text-slate-400 mb-1">رمز السهم أو رقمه</label>
+                        <input type="text" id="input-symbol" placeholder="2222 / AAPL / INTC" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200 uppercase">
                     </div>
                     <div>
                         <label class="block text-slate-400 mb-1">نوع العملية</label>
@@ -395,7 +392,6 @@
                 </div>
             </div>
 
-            <!-- Transactions Table -->
             <div class="glass-panel p-5">
                 <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
                     <h3 class="text-md font-bold text-white flex items-center gap-2">
@@ -416,7 +412,7 @@
                             <tr>
                                 <th class="p-3">التاريخ</th>
                                 <th class="p-3">السوق</th>
-                                <th class="p-3">السهم</th>
+                                <th class="p-3">اسم السهم</th>
                                 <th class="p-3">النوع</th>
                                 <th class="p-3">الكمية</th>
                                 <th class="p-3">السعر</th>
@@ -449,17 +445,16 @@
                 </div>
             </div>
 
-            <!-- Monthly Summary -->
             <div class="glass-panel p-5">
                 <h3 class="text-md font-bold text-white mb-3 flex items-center gap-2">
                     <i data-lucide="calculator" class="w-4 h-4 text-indigo-400"></i>
-                    <span>جدول الملخص الشهري المالي</span>
+                    <span>جدول الملخص الشهري المالي (مفصل ومستقل لكل سوق)</span>
                 </h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-xs text-right text-slate-300" id="monthly-summary-table">
                         <thead class="bg-slate-900/80 text-slate-400 border-b border-slate-800">
                             <tr>
-                                <th class="p-3">السوق</th>
+                                <th class="p-3">السوق / العملة</th>
                                 <th class="p-3">عدد العمليات</th>
                                 <th class="p-3">إجمالي المشتريات</th>
                                 <th class="p-3">إجمالي المبيعات</th>
@@ -471,17 +466,16 @@
                 </div>
             </div>
 
-            <!-- Corporate Events & News Table -->
             <div class="glass-panel p-5">
                 <h3 class="text-md font-bold text-white mb-3 flex items-center gap-2">
                     <i data-lucide="newspaper" class="w-4 h-4 text-amber-400"></i>
-                    <span>جدول أخبار الشركات والأحداث الجوهرية (توزيعات / تجزئة / أحقية)</span>
+                    <span>جدول أخبار الشركات والأحداث الجوهرية</span>
                 </h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-xs text-right text-slate-300">
                         <thead class="bg-slate-900/80 text-slate-400 border-b border-slate-800">
                             <tr>
-                                <th class="p-3">السهم / الرمز</th>
+                                <th class="p-3">السهم / الشركة</th>
                                 <th class="p-3">نوع الحدث</th>
                                 <th class="p-3">تفاصيل المعلومة</th>
                                 <th class="p-3">التاريخ</th>
@@ -490,14 +484,14 @@
                         </thead>
                         <tbody id="corporate-events-body" class="divide-y divide-slate-800/50">
                             <tr>
-                                <td class="p-3 font-bold text-white">2222 (أرامكو)</td>
+                                <td class="p-3 font-bold text-white">أرامكو السعودية (2222)</td>
                                 <td class="p-3 text-emerald-400">توزيع أرباح</td>
                                 <td class="p-3">توزيع أرباح نقدية بواقع 0.31 ريال للسهم</td>
                                 <td class="p-3 font-mono">2026-11-15</td>
                                 <td class="p-3 text-emerald-400">إيجابي عائدي</td>
                             </tr>
                             <tr>
-                                <td class="p-3 font-bold text-white">AAPL</td>
+                                <td class="p-3 font-bold text-white">Apple Inc. (AAPL)</td>
                                 <td class="p-3 text-indigo-400">إعلان نتائج مالية</td>
                                 <td class="p-3">إعلان نتائج الربع الثالث وإيرادات الخدمات</td>
                                 <td class="p-3 font-mono">2026-10-28</td>
@@ -509,12 +503,12 @@
             </div>
         </div>
 
-        <!-- TAB 4: MEMBERS & RBAC CONTENT -->
+        <!-- TAB 4: MEMBERS & RBAC CONTENT (توضيح المسميات وتحديد الصلاحيات بدقة) -->
         <div id="content-members" class="tab-pane space-y-6 hidden">
             <div class="glass-panel p-5 mb-5">
                 <h3 class="text-md font-bold text-white mb-3 flex items-center gap-2">
                     <i data-lucide="user-plus" class="w-4 h-4 text-emerald-400"></i>
-                    <span>إضافة مدراء وأعضاء جدد للنظام وتحديد الصلاحيات</span>
+                    <span>إضافة أعضاء ومدراء جدد وتخصيص الصلاحيات</span>
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
                     <div>
@@ -526,12 +520,12 @@
                         <input type="password" id="new-member-pass" placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
                     </div>
                     <div>
-                        <label class="block text-slate-400 mb-1">الدور الوظيفي</label>
+                        <label class="block text-slate-400 mb-1">المسمى الوظيفي والدور</label>
                         <select id="new-member-role" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
-                            <option value="مدير النظام">مدير النظام (Admin)</option>
+                            <option value="مدير فرعي">مدير فرعي</option>
                             <option value="مستثمر">مستثمر</option>
                             <option value="محلل مالي">محلل مالي</option>
-                            <option value="مراقب">مراقب</option>
+                            <option value="مراقب نظام">مراقب نظام</option>
                         </select>
                     </div>
                     <div class="flex items-end">
@@ -546,21 +540,20 @@
             <div class="glass-panel p-5">
                 <h3 class="text-md font-bold text-white mb-3 flex items-center gap-2">
                     <i data-lucide="shield-alert" class="w-4 h-4 text-indigo-400"></i>
-                    <span>إدارة الأعضاء والمدراء والصلاحيات (RBAC)</span>
+                    <span>إدارة المسميات وصلاحيات الأعضاء (RBAC)</span>
                 </h3>
-                <p class="text-xs text-slate-400 mb-4">تحديد مستوى الاطلاع والتعديل لكل مستخدم على وحدات النظام والأسواق.</p>
+                <p class="text-xs text-slate-400 mb-4">المدير يحدد الصلاحيات الكاملة والمسميات الوظيفة لكل عضو أسفل تفاصيل عضويته (المدير الأساسي محمي تماماً ولا تظهر بياناته).</p>
                 
                 <div class="overflow-x-auto">
                     <table class="w-full text-xs text-right text-slate-300">
                         <thead class="bg-slate-900/80 text-slate-400 border-b border-slate-800">
                             <tr>
-                                <th class="p-3">اسم المستخدم</th>
+                                <th class="p-3">اسم المستخدم والمسمى الوظيفي</th>
                                 <th class="p-3">كلمة المرور</th>
-                                <th class="p-3">الدور</th>
                                 <th class="p-3">صلاحية السوق السعودي (TASI)</th>
                                 <th class="p-3">صلاحية السوق الأمريكي (US)</th>
-                                <th class="p-3">صلاحية العمليات</th>
-                                <th class="p-3 text-center">إجراءات</th>
+                                <th class="p-3">صلاحية العمليات والتقارير</th>
+                                <th class="p-3 text-center">الإجراءات</th>
                             </tr>
                         </thead>
                         <tbody id="members-table-body" class="divide-y divide-slate-800/50"></tbody>
@@ -573,25 +566,57 @@
 
     <!-- APPLICATION SCRIPT -->
     <script>
-        const EXCHANGE_RATE = 3.75;
         let transactions = [];
         let stockNotes = {};
 
-        // جلب المستخدمين من الذاكرة المحلية لتخزين البيانات
-        let usersDatabase = JSON.parse(localStorage.getItem('portoflow_users')) || [];
+        const stockNames = {
+            '2222': 'أرامكو السعودية',
+            '1120': 'الراجحي',
+            '1180': 'الأهلي',
+            '2010': 'سابك',
+            '7010': 'STC',
+            '1150': 'الإنماء',
+            '2380': 'بترورابغ',
+            '1010': 'الرياض',
+            'INTC': 'Intel Corp',
+            'PG': 'Procter & Gamble Co',
+            'AAPL': 'Apple Inc',
+            'MSFT': 'Microsoft Corp',
+            'NVDA': 'NVIDIA Corp',
+            'TSLA': 'Tesla Inc',
+            'AMZN': 'Amazon.com Inc',
+            'GOOGL': 'Alphabet Inc (Google)'
+        };
+
+        let livePrices = {
+            '2222': 28.30,
+            'PG': 162.40,
+            'INTC': 31.80
+        };
+
+        function getDisplayName(symbol, market) {
+            const sym = symbol.trim().toUpperCase();
+            if (stockNames[sym]) {
+                return `${stockNames[sym]} (${sym})`;
+            }
+            return sym;
+        }
+
+        let systemOwner = JSON.parse(localStorage.getItem('portoflow_owner')) || null;
+        let subUsers = JSON.parse(localStorage.getItem('portoflow_subusers')) || [];
+        let currentLoggedInUser = null;
 
         const marketIndexes = [
-            { name: 'تداول (TASI)', val: '11,845.20', change: '+42.50', ratio: '+0.36%', isUp: true },
-            { name: 'S&P 500', val: '5,088.80', change: '+18.20', ratio: '+0.36%', isUp: true },
-            { name: 'Nasdaq 100', val: '17,925.40', change: '-24.10', ratio: '-0.13%', isUp: false },
-            { name: 'Dow Jones', val: '38,790.10', change: '+115.40', ratio: '+0.30%', isUp: true }
+            { name: 'تداول (TASI)', val: 11845.20, change: 42.50, ratio: 0.36, isUp: true },
+            { name: 'S&P 500', val: 5088.80, change: 18.20, ratio: 0.36, isUp: true },
+            { name: 'Nasdaq 100', val: 17925.40, change: -24.10, ratio: -0.13, isUp: false },
+            { name: 'Dow Jones', val: 38790.10, change: 115.40, ratio: 0.30, isUp: true }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
             
-            // التحقق مما إذا كان هناك مدير مسجل مسبقاً أم هذه أول مرة
-            if (usersDatabase.length === 0) {
+            if (!systemOwner) {
                 document.getElementById('login-container').classList.add('hidden');
                 document.getElementById('setup-container').classList.remove('hidden');
             } else {
@@ -600,10 +625,9 @@
             }
 
             renderMarketTicker();
-            renderMembersTable();
+            setInterval(simulateLiveTickers, 3000);
         });
 
-        // حفظ حساب المدير الأساسي لأول مرة
         function saveInitialAdmin() {
             const user = document.getElementById('setup-username').value.trim();
             const pass = document.getElementById('setup-password').value;
@@ -619,18 +643,14 @@
                 return;
             }
 
-            usersDatabase.push({
-                id: Date.now(),
+            systemOwner = {
                 username: user,
                 pass: pass,
-                role: 'مدير النظام',
-                tasi: 'اطلاع وتعديل',
-                us: 'اطلاع وتعديل',
-                ops: 'اطلاع وتعديل'
-            });
+                role: 'مدير النظام الأساسي'
+            };
 
-            localStorage.setItem('portoflow_users', JSON.stringify(usersDatabase));
-            alert('تم إنشاء حساب المدير بنجاح! يمكنك الآن تسجيل الدخول.');
+            localStorage.setItem('portoflow_owner', JSON.stringify(systemOwner));
+            alert('تم إنشاء حساب المدير الأساسي بنجاح! يمكنك الآن تسجيل الدخول.');
 
             document.getElementById('setup-container').classList.add('hidden');
             document.getElementById('login-container').classList.remove('hidden');
@@ -641,9 +661,16 @@
             const usernameInput = document.getElementById('login-username').value.trim();
             const passwordInput = document.getElementById('login-password').value;
 
-            const matchedUser = usersDatabase.find(u => u.username === usernameInput && u.pass === passwordInput);
+            if (systemOwner && systemOwner.username === usernameInput && systemOwner.pass === passwordInput) {
+                currentLoggedInUser = { ...systemOwner, isOwner: true };
+            } else {
+                const matchedSub = subUsers.find(u => u.username === usernameInput && u.pass === passwordInput);
+                if (matchedSub) {
+                    currentLoggedInUser = { ...matchedSub, isOwner: false };
+                }
+            }
 
-            if (!matchedUser) {
+            if (!currentLoggedInUser) {
                 alert('خطأ: اسم المستخدم أو كلمة المرور غير صحيحة!');
                 return;
             }
@@ -651,18 +678,15 @@
             document.getElementById('login-container').classList.add('hidden');
             document.getElementById('main-app-container').classList.remove('hidden');
             
-            document.getElementById('logged-user-name').innerText = matchedUser.username;
-            const roleBadge = document.getElementById('role-badge');
-            
-            roleBadge.innerText = matchedUser.role === 'مدير النظام' 
-                ? 'مدير النظام (Admin)' 
-                : `مستخدم (${matchedUser.role})`;
+            document.getElementById('logged-user-name').innerText = currentLoggedInUser.username;
+            document.getElementById('role-badge').innerText = currentLoggedInUser.isOwner ? 'مدير النظام الأساسي' : `مستخدم (${currentLoggedInUser.role})`;
 
             renderAllViews();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function logoutSystem() {
+            currentLoggedInUser = null;
             document.getElementById('main-app-container').classList.add('hidden');
             document.getElementById('login-container').classList.remove('hidden');
             document.getElementById('login-username').value = '';
@@ -670,9 +694,9 @@
         }
 
         function resetSystemData() {
-            if (confirm('هل أنت متأكد من مسح جميع حسابات المستخدمين وإعادة ضبط النظام من جديد؟')) {
-                localStorage.removeItem('portoflow_users');
-                usersDatabase = [];
+            if (confirm('هل أنت متأكد من مسح حساب المدير الأساسي وإعادة ضبط النظام بالكامل؟')) {
+                localStorage.removeItem('portoflow_owner');
+                localStorage.removeItem('portoflow_subusers');
                 location.reload();
             }
         }
@@ -703,61 +727,105 @@
                 return;
             }
 
-            if (usersDatabase.some(u => u.username === name)) {
+            if ((systemOwner && systemOwner.username === name) || subUsers.some(u => u.username === name)) {
                 alert('اسم المستخدم موجود مسبقاً، يرجى اختيار اسم مختلف');
                 return;
             }
 
-            usersDatabase.push({ 
+            subUsers.push({ 
                 id: Date.now(), 
                 username: name, 
                 pass: pass, 
                 role: role, 
                 tasi: 'اطلاع وتعديل', 
                 us: 'اطلاع فقط', 
-                ops: 'اطلاع فقط' 
+                ops: 'اطلاع وتعديل' 
             });
 
-            localStorage.setItem('portoflow_users', JSON.stringify(usersDatabase));
+            localStorage.setItem('portoflow_subusers', JSON.stringify(subUsers));
             renderMembersTable();
             document.getElementById('new-member-name').value = '';
             document.getElementById('new-member-pass').value = '';
-            alert(`تم إضافة (${name}) بنجاح.`);
+            alert(`تم إضافة الأعضاء (${name}) بنجاح.`);
         }
 
+        function deleteSubUser(id) {
+            if (confirm('هل أنت متأكد من حذف هذا العضو؟')) {
+                subUsers = subUsers.filter(u => u.id !== id);
+                localStorage.setItem('portoflow_subusers', JSON.stringify(subUsers));
+                renderMembersTable();
+            }
+        }
+
+        // عرض المسميات وتحديد الصلاحيات لكل عضو مضاف بدقة
         function renderMembersTable() {
             const tbody = document.getElementById('members-table-body');
             if (!tbody) return;
-            tbody.innerHTML = usersDatabase.map((m) => `
+            
+            tbody.innerHTML = subUsers.map((m) => `
                 <tr class="hover:bg-slate-800/40 border-b border-slate-800/40">
-                    <td class="p-3 font-bold text-white">${m.username}</td>
-                    <td class="p-3 font-mono text-slate-400">${m.pass}</td>
-                    <td class="p-3 text-indigo-400">${m.role}</td>
                     <td class="p-3">
-                        <select class="bg-slate-900 text-xs rounded p-1 border border-slate-700 text-slate-300">
+                        <div class="font-bold text-white text-sm">${m.username}</div>
+                        <div class="text-[11px] text-indigo-400 mt-0.5 font-medium">المسمى الوظيفي: ${m.role}</div>
+                    </td>
+                    <td class="p-3 font-mono text-slate-400">${m.pass}</td>
+                    <td class="p-3">
+                        <select id="tasi-perm-${m.id}" class="bg-slate-900 text-xs rounded p-1 border border-slate-700 text-slate-300">
                             <option ${m.tasi==='اطلاع وتعديل'?'selected':''}>اطلاع وتعديل</option>
                             <option ${m.tasi==='اطلاع فقط'?'selected':''}>اطلاع فقط</option>
                             <option ${m.tasi==='مخفي'?'selected':''}>مخفي</option>
                         </select>
                     </td>
                     <td class="p-3">
-                        <select class="bg-slate-900 text-xs rounded p-1 border border-slate-700 text-slate-300">
+                        <select id="us-perm-${m.id}" class="bg-slate-900 text-xs rounded p-1 border border-slate-700 text-slate-300">
                             <option ${m.us==='اطلاع وتعديل'?'selected':''}>اطلاع وتعديل</option>
                             <option ${m.us==='اطلاع فقط'?'selected':''}>اطلاع فقط</option>
                             <option ${m.us==='مخفي'?'selected':''}>مخفي</option>
                         </select>
                     </td>
                     <td class="p-3">
-                        <select class="bg-slate-900 text-xs rounded p-1 border border-slate-700 text-slate-300">
+                        <select id="ops-perm-${m.id}" class="bg-slate-900 text-xs rounded p-1 border border-slate-700 text-slate-300">
                             <option ${m.ops==='اطلاع وتعديل'?'selected':''}>اطلاع وتعديل</option>
                             <option ${m.ops==='اطلاع فقط'?'selected':''}>اطلاع فقط</option>
                         </select>
                     </td>
-                    <td class="p-3 text-center">
-                        <button type="button" onclick="alert('تم حفظ صلاحيات المستخدم ${m.username}')" class="bg-indigo-600 hover:bg-indigo-500 px-2.5 py-1 rounded text-white text-[11px] cursor-pointer">حفظ</button>
+                    <td class="p-3 text-center flex items-center justify-center gap-2">
+                        <button type="button" onclick="saveMemberPermissions(${m.id})" class="bg-indigo-600 hover:bg-indigo-500 px-2.5 py-1 rounded text-white text-[11px] cursor-pointer">حفظ الصلاحيات</button>
+                        <button type="button" onclick="deleteSubUser(${m.id})" class="bg-rose-500/20 hover:bg-rose-500/40 text-rose-400 px-2 py-1 rounded text-[11px] cursor-pointer">حذف</button>
                     </td>
                 </tr>
             `).join('');
+
+            if (subUsers.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center p-4 text-slate-500">لا يوجد أعضاء فرعيين مضافين حالياً. المدير الأساسي محمي بالكامل ولا تظهر بياناته هنا.</td></tr>`;
+            }
+        }
+
+        function saveMemberPermissions(id) {
+            const tasiVal = document.getElementById(`tasi-perm-${id}`).value;
+            const usVal = document.getElementById(`us-perm-${id}`).value;
+            const opsVal = document.getElementById(`ops-perm-${id}`).value;
+
+            const user = subUsers.find(u => u.id === id);
+            if (user) {
+                user.tasi = tasiVal;
+                user.us = usVal;
+                user.ops = opsVal;
+                localStorage.setItem('portoflow_subusers', JSON.stringify(subUsers));
+                alert(`تم تحديث وحفظ صلاحيات العضو (${user.username}) بنجاح.`);
+            }
+        }
+
+        function simulateLiveTickers() {
+            Object.keys(livePrices).forEach(sym => {
+                const delta = (Math.random() - 0.49) * 0.35;
+                livePrices[sym] = Math.max(1, livePrices[sym] + delta);
+            });
+            if (currentLoggedInUser) {
+                renderStockTicker();
+                renderKPIs();
+                renderTable1();
+            }
         }
 
         function calculateHoldings() {
@@ -765,7 +833,8 @@
             transactions.forEach(t => {
                 const key = `${t.market}_${t.symbol}`;
                 if (!holdings[key]) {
-                    holdings[key] = { symbol: t.symbol, market: t.market, qty: 0, totalCost: 0, avgCost: 0, currentPrice: t.price };
+                    if (!livePrices[t.symbol]) livePrices[t.symbol] = t.price;
+                    holdings[key] = { symbol: t.symbol, market: t.market, qty: 0, totalCost: 0, avgCost: 0 };
                 }
                 const netVal = (t.qty * t.price) + (t.type === 'شراء' ? (t.commission + t.tax) : -(t.commission + t.tax));
                 if (t.type === 'شراء') {
@@ -779,7 +848,11 @@
                     holdings[key].avgCost = holdings[key].totalCost / holdings[key].qty;
                 }
             });
-            return Object.values(holdings).filter(h => h.qty > 0);
+
+            return Object.values(holdings).filter(h => h.qty > 0).map(h => ({
+                ...h,
+                currentPrice: livePrices[h.symbol] || h.avgCost
+            }));
         }
 
         function renderAllViews() {
@@ -799,8 +872,8 @@
             marketTickerEl.innerHTML = marketIndexes.map(idx => `
                 <div class="inline-flex items-center gap-2 bg-slate-900/50 px-3 py-1 rounded-lg border border-slate-800">
                     <span class="font-bold text-amber-400">${idx.name}</span>
-                    <span class="text-slate-200 font-mono">${idx.val}</span>
-                    <span class="${idx.isUp ? 'text-emerald-400' : 'text-rose-400'} font-semibold dir-ltr">${idx.change} (${idx.ratio})</span>
+                    <span class="text-slate-200 font-mono">${idx.val.toFixed(2)}</span>
+                    <span class="${idx.isUp ? 'text-emerald-400' : 'text-rose-400'} font-semibold dir-ltr">${idx.change > 0 ? '+' : ''}${idx.change.toFixed(2)} (${idx.ratio}%)</span>
                 </div>
             `).join('');
         }
@@ -812,27 +885,75 @@
                 stockTickerEl.innerHTML = '<span class="text-slate-500">لا توجد أسهم مضافة حالياً في المحفظة</span>';
                 return;
             }
-            stockTickerEl.innerHTML = holdings.map(s => `
-                <div class="inline-flex items-center gap-2 bg-slate-900/50 px-3 py-1 rounded-lg border border-slate-800">
-                    <span class="font-bold text-slate-200">${s.symbol} (${s.market})</span>
-                    <span class="text-slate-300 font-mono">${s.currentPrice.toFixed(2)}</span>
-                </div>
-            `).join('');
+
+            const tasiStocks = holdings.filter(h => h.market === 'TASI');
+            const usStocks = holdings.filter(h => h.market === 'US');
+
+            let html = '';
+
+            if (tasiStocks.length > 0) {
+                html += `<span class="text-emerald-400 font-bold px-2 py-0.5 bg-emerald-500/10 rounded border border-emerald-500/20">السوق السعودي (TASI):</span>`;
+                html += tasiStocks.map(s => {
+                    const pChange = s.currentPrice - s.avgCost;
+                    const pRatio = ((pChange / s.avgCost) * 100).toFixed(2);
+                    return `
+                        <div class="inline-flex items-center gap-2 bg-slate-900/80 px-3 py-1 rounded-lg border border-emerald-500/30">
+                            <span class="font-bold text-slate-100">${getDisplayName(s.symbol, s.market)}</span>
+                            <span class="text-emerald-400 font-mono font-bold">${s.currentPrice.toFixed(2)} ر.س</span>
+                            <span class="${pChange >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-semibold dir-ltr text-[11px]">${pChange >= 0 ? '+' : ''}${pChange.toFixed(2)} (${pRatio}%)</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            if (usStocks.length > 0) {
+                html += `<span class="text-blue-400 font-bold px-2 py-0.5 bg-blue-500/10 rounded border border-blue-500/20 ml-4">السوق الأمريكي (US):</span>`;
+                html += usStocks.map(s => {
+                    const pChange = s.currentPrice - s.avgCost;
+                    const pRatio = ((pChange / s.avgCost) * 100).toFixed(2);
+                    return `
+                        <div class="inline-flex items-center gap-2 bg-slate-900/80 px-3 py-1 rounded-lg border border-blue-500/30">
+                            <span class="font-bold text-slate-100">${getDisplayName(s.symbol, s.market)}</span>
+                            <span class="text-blue-400 font-mono font-bold">$${s.currentPrice.toFixed(2)}</span>
+                            <span class="${pChange >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-semibold dir-ltr text-[11px]">${pChange >= 0 ? '+' : ''}${pChange.toFixed(2)} (${pRatio}%)</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            stockTickerEl.innerHTML = html;
         }
 
         function renderKPIs() {
             const holdings = calculateHoldings();
-            let totalValSAR = 0;
-            let totalCostSAR = 0;
+            
+            let tasiVal = 0, tasiCost = 0;
+            let usVal = 0, usCost = 0;
+            let tasiCount = 0, usCount = 0;
+
             holdings.forEach(s => {
-                const rate = s.market === 'US' ? EXCHANGE_RATE : 1;
-                totalValSAR += (s.qty * s.currentPrice) * rate;
-                totalCostSAR += (s.qty * s.avgCost) * rate;
+                if (s.market === 'TASI') {
+                    tasiVal += (s.qty * s.currentPrice);
+                    tasiCost += (s.qty * s.avgCost);
+                    tasiCount++;
+                } else if (s.market === 'US') {
+                    usVal += (s.qty * s.currentPrice);
+                    usCost += (s.qty * s.avgCost);
+                    usCount++;
+                }
             });
-            const unrealized = totalValSAR - totalCostSAR;
-            document.getElementById('kpi-portfolio-value').innerText = `${totalValSAR.toLocaleString('en-US', {minimumFractionDigits: 2})} ر.س`;
-            document.getElementById('kpi-unrealized-profit').innerText = `${unrealized >= 0 ? '+' : ''}${unrealized.toLocaleString('en-US', {minimumFractionDigits: 2})} ر.س`;
+
+            const tasiProfit = tasiVal - tasiCost;
+            const usProfit = usVal - usCost;
+
+            document.getElementById('kpi-tasi-val').innerText = `${tasiVal.toLocaleString('en-US', {minimumFractionDigits: 2})} ر.س`;
+            document.getElementById('kpi-tasi-profit').innerText = `الأرباح غير المحققة: ${tasiProfit >= 0 ? '+' : ''}${tasiProfit.toFixed(2)} ر.س`;
+
+            document.getElementById('kpi-us-val').innerText = `$${usVal.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('kpi-us-profit').innerText = `الأرباح غير المحققة: ${usProfit >= 0 ? '+' : ''}$${usProfit.toFixed(2)}`;
+
             document.getElementById('kpi-active-stocks').innerText = `${holdings.length} شركات`;
+            document.getElementById('kpi-stocks-breakdown').innerText = `${tasiCount} سعودية | ${usCount} أمريكية`;
         }
 
         function renderTable1() {
@@ -845,15 +966,16 @@
             tbody.innerHTML = holdings.map(s => {
                 const totalVal = s.qty * s.currentPrice;
                 const profit = (s.currentPrice - s.avgCost) * s.qty;
+                const currency = s.market === 'TASI' ? 'ر.س' : '\$';
                 return `
                     <tr class="hover:bg-slate-800/40 border-b border-slate-800/40">
-                        <td class="p-3 font-bold text-white">${s.symbol}</td>
+                        <td class="p-3 font-bold text-white">${getDisplayName(s.symbol, s.market)}</td>
                         <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${s.market==='TASI'?'bg-emerald-500/10 text-emerald-400':'bg-blue-500/10 text-blue-400'}">${s.market}</span></td>
                         <td class="p-3 font-mono">${s.qty}</td>
-                        <td class="p-3 font-mono">${s.avgCost.toFixed(2)}</td>
-                        <td class="p-3 font-mono font-bold text-white">${s.currentPrice.toFixed(2)}</td>
-                        <td class="p-3 font-mono">${totalVal.toFixed(2)}</td>
-                        <td class="p-3 font-mono font-bold ${profit >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${profit >= 0 ? '+' : ''}${profit.toFixed(2)}</td>
+                        <td class="p-3 font-mono">${s.avgCost.toFixed(2)} ${currency}</td>
+                        <td class="p-3 font-mono font-bold text-emerald-400">${s.currentPrice.toFixed(2)} ${currency}</td>
+                        <td class="p-3 font-mono">${totalVal.toFixed(2)} ${currency}</td>
+                        <td class="p-3 font-mono font-bold ${profit >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${profit >= 0 ? '+' : ''}${profit.toFixed(2)} ${currency}</td>
                         <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${profit >= 0 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">${profit >= 0 ? 'صاعد 🟢' : 'هابط 🔴'}</span></td>
                     </tr>
                 `;
@@ -869,7 +991,7 @@
             }
             tbody.innerHTML = holdings.map(s => `
                 <tr class="hover:bg-slate-800/40 border-b border-slate-800/40">
-                    <td class="p-3 font-bold text-white">${s.symbol}</td>
+                    <td class="p-3 font-bold text-white">${getDisplayName(s.symbol, s.market)}</td>
                     <td class="p-3">${s.market}</td>
                     <td class="p-3 text-slate-300">أداء إيجابي للسهم مدعوم بمتوسط تكلفة ${s.avgCost.toFixed(2)}.</td>
                     <td class="p-3"><input type="text" id="note-${s.symbol}" value="${stockNotes[s.symbol] || ''}" placeholder="ملاحظة شخصية..." class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-slate-200"></td>
@@ -882,7 +1004,7 @@
             const el = document.getElementById(`note-${sym}`);
             if (el) {
                 stockNotes[sym] = el.value;
-                alert(`تم حفظ الملاحظة لسهم ${sym}`);
+                alert(`تم حفظ الملاحظة لسهم ${getDisplayName(sym, '')}`);
             }
         }
 
@@ -895,15 +1017,16 @@
             tbody.innerHTML = transactions.map(t => {
                 const totalGross = t.qty * t.price;
                 const totalNet = t.type === 'شراء' ? totalGross + t.commission + t.tax : totalGross - (t.commission + t.tax);
+                const currency = t.market === 'TASI' ? 'ر.س' : '\$';
                 return `
                     <tr class="hover:bg-slate-800/40 border-b border-slate-800/40">
                         <td class="p-3 font-mono text-slate-400">${t.date}</td>
                         <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/10 text-indigo-400">${t.market}</span></td>
-                        <td class="p-3 font-bold text-white">${t.symbol}</td>
+                        <td class="p-3 font-bold text-white">${getDisplayName(t.symbol, t.market)}</td>
                         <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${t.type === 'شراء' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">${t.type}</span></td>
                         <td class="p-3 font-mono">${t.qty}</td>
-                        <td class="p-3 font-mono">${t.price.toFixed(2)}</td>
-                        <td class="p-3 font-mono font-bold text-white">${totalNet.toFixed(2)}</td>
+                        <td class="p-3 font-mono">${t.price.toFixed(2)} ${currency}</td>
+                        <td class="p-3 font-mono font-bold text-white">${totalNet.toFixed(2)} ${currency}</td>
                         <td class="p-3 text-center flex items-center justify-center gap-2">
                             <button type="button" onclick="editTx(${t.id})" class="p-1 bg-indigo-500/10 text-indigo-400 rounded cursor-pointer"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
                             <button type="button" onclick="deleteTx(${t.id})" class="p-1 bg-rose-500/10 text-rose-400 rounded cursor-pointer"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
@@ -926,6 +1049,10 @@
             const now = new Date().toISOString().split('T')[0];
 
             if(!symbol) { alert('يرجى إدخال رمز السهم'); return; }
+
+            if (!livePrices[symbol]) {
+                livePrices[symbol] = price;
+            }
 
             if (editId) {
                 const idx = transactions.findIndex(t => t.id == editId);
@@ -987,13 +1114,14 @@
                 const buys = mTx.filter(t => t.type === 'شراء').reduce((acc, t) => acc + (t.qty * t.price), 0);
                 const sells = mTx.filter(t => t.type === 'بيع').reduce((acc, t) => acc + (t.qty * t.price), 0);
                 const fees = mTx.reduce((acc, t) => acc + t.commission + t.tax, 0);
+                const currency = m === 'TASI' ? 'ر.س' : '\$';
                 return `
                     <tr class="hover:bg-slate-800/40 border-b border-slate-800/40">
                         <td class="p-3 font-bold text-white">${m === 'TASI' ? 'السوق السعودي (TASI)' : 'السوق الأمريكي (US)'}</td>
                         <td class="p-3 font-mono">${mTx.length}</td>
-                        <td class="p-3 font-mono">${buys.toFixed(2)}</td>
-                        <td class="p-3 font-mono">${sells.toFixed(2)}</td>
-                        <td class="p-3 font-mono text-slate-400">${fees.toFixed(2)}</td>
+                        <td class="p-3 font-mono">${buys.toFixed(2)} ${currency}</td>
+                        <td class="p-3 font-mono">${sells.toFixed(2)} ${currency}</td>
+                        <td class="p-3 font-mono text-slate-400">${fees.toFixed(2)} ${currency}</td>
                     </tr>
                 `;
             }).join('');
