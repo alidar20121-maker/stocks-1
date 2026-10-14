@@ -103,7 +103,7 @@
 </head>
 <body class="p-3 md:p-6 text-slate-200">
 
-    <!-- 1. LOGIN SECTION -->
+    <!-- 1. LOGIN / SETUP SECTION -->
     <div id="login-container" class="flex items-center justify-center min-h-[90vh]">
         <div class="w-full max-w-md">
             <div class="text-center mb-8">
@@ -111,66 +111,44 @@
                     <i data-lucide="shield-check" class="w-8 h-8"></i>
                 </div>
                 <h1 class="text-2xl font-bold tracking-wide text-white">نظام إدارة المحافظ الاستثمارية</h1>
-                <p class="text-xs text-slate-400 mt-1.5">يرجى تسجيل الدخول باستخدام اسم المستخدم وكلمة المرور</p>
+                <p id="setup-subtitle" class="text-xs text-indigo-400 font-semibold mt-1.5">إعداد أول مرة: أنشئ حساب المدير</p>
             </div>
 
             <div class="glass-panel p-8">
                 <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
-                    <h2 class="text-base font-bold text-white flex items-center gap-2">
-                        <i data-lucide="lock" class="w-4 h-4 text-indigo-400"></i>
-                        تسجيل الدخول
+                    <h2 id="login-form-title" class="text-base font-bold text-white flex items-center gap-2">
+                        <i data-lucide="user-plus" class="w-4 h-4 text-indigo-400"></i>
+                        إنشاء حساب المدير الجديد
                     </h2>
-                    <button onclick="toggleLoginLang()" class="text-xs bg-slate-800/80 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700/60 transition-all flex items-center gap-1.5">
+                    <button type="button" onclick="toggleLoginLang()" class="text-xs bg-slate-800/80 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700/60 transition-all flex items-center gap-1.5">
                         <i data-lucide="languages" class="w-3.5 h-3.5 text-indigo-400"></i>
                         <span id="login-lang-label">English</span>
                     </button>
                 </div>
 
-                <form onsubmit="processLogin(event)" class="space-y-4 text-xs">
+                <div class="space-y-4 text-xs">
                     <div>
                         <label class="block text-slate-300 mb-1.5 font-medium">اسم المستخدم</label>
                         <div class="relative">
                             <i data-lucide="user" class="w-4 h-4 absolute right-3.5 top-3 text-slate-500"></i>
-                            <input type="text" id="login-username" required placeholder="admin أو username" 
+                            <input type="text" id="login-username" placeholder="أدخل اسم المستخدم للمدير" 
                                 class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pr-10 pl-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-slate-300 mb-1.5 font-medium">كلمة المرور</label>
+                        <label class="block text-slate-300 mb-1.5 font-medium">كلمة السر</label>
                         <div class="relative">
                             <i data-lucide="key" class="w-4 h-4 absolute right-3.5 top-3 text-slate-500"></i>
-                            <input type="password" id="login-password" required placeholder="••••••••" 
+                            <input type="password" id="login-password" placeholder="••••••••" 
                                 class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pr-10 pl-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all">
                         </div>
                     </div>
 
-                    <!-- Remember Me Option -->
-                    <div class="flex items-center justify-between py-1">
-                        <label class="flex items-center gap-2 text-slate-400 cursor-pointer">
-                            <input type="checkbox" id="remember-me" class="rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-0">
-                            <span>حفظ اسم المستخدم وكلمة المرور</span>
-                        </label>
-                    </div>
-
-                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 text-sm">
-                        <i data-lucide="log-in" class="w-4 h-4"></i>
-                        <span>دخول النظام</span>
+                    <button type="button" onclick="processLogin()" id="login-btn-text" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 text-sm">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        <span>إنشاء الحساب والدخول</span>
                     </button>
-                </form>
-
-                <div class="mt-6 pt-5 border-t border-slate-800 text-center">
-                    <p class="text-[11px] text-slate-400 mb-3">الدخول السريع للتجربة:</p>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="quickDemoLogin('admin')" class="bg-slate-800/80 hover:bg-slate-700 text-indigo-300 py-2 px-3 rounded-lg border border-slate-700 font-medium transition-all text-xs flex items-center justify-center gap-1.5">
-                            <i data-lucide="shield" class="w-3.5 h-3.5"></i>
-                            <span>مدير (Admin)</span>
-                        </button>
-                        <button onclick="quickDemoLogin('member')" class="bg-slate-800/80 hover:bg-slate-700 text-emerald-300 py-2 px-3 rounded-lg border border-slate-700 font-medium transition-all text-xs flex items-center justify-center gap-1.5">
-                            <i data-lucide="user" class="w-3.5 h-3.5"></i>
-                            <span>عضو (Member)</span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -210,32 +188,32 @@
             <!-- Tab Controls & Language Switcher -->
             <div class="flex items-center gap-3">
                 <div class="flex items-center gap-1.5 bg-slate-900/80 p-1.5 rounded-xl border border-slate-800">
-                    <button onclick="switchTab('dashboard')" id="tab-dashboard" class="px-3.5 py-2 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">
+                    <button type="button" onclick="switchTab('dashboard')" id="tab-dashboard" class="px-3.5 py-2 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">
                         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                         <span data-i18n="dashboard">لوحة القيادة</span>
                     </button>
-                    <button onclick="switchTab('operations')" id="tab-operations" class="px-3.5 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5">
+                    <button type="button" onclick="switchTab('operations')" id="tab-operations" class="px-3.5 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5">
                         <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
                         <span data-i18n="operations">العمليات</span>
                     </button>
-                    <button onclick="switchTab('reports')" id="tab-reports" class="px-3.5 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5">
+                    <button type="button" onclick="switchTab('reports')" id="tab-reports" class="px-3.5 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5">
                         <i data-lucide="file-text" class="w-4 h-4"></i>
                         <span data-i18n="reports">التقارير</span>
                     </button>
-                    <button onclick="switchTab('members')" id="tab-members" class="px-3.5 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5">
+                    <button type="button" onclick="switchTab('members')" id="tab-members" class="px-3.5 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5">
                         <i data-lucide="users" class="w-4 h-4"></i>
                         <span data-i18n="members">الأعضاء والصلاحيات</span>
                     </button>
                 </div>
 
                 <!-- App Language Switcher -->
-                <button onclick="toggleAppLanguage()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-xl border border-slate-700 text-xs font-medium flex items-center gap-1.5">
+                <button type="button" onclick="toggleAppLanguage()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-xl border border-slate-700 text-xs font-medium flex items-center gap-1.5">
                     <i data-lucide="globe" class="w-4 h-4 text-indigo-400"></i>
                     <span id="app-lang-text">EN</span>
                 </button>
 
                 <!-- Logout -->
-                <button onclick="logoutSystem()" title="تسجيل الخروج" class="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 p-2 rounded-xl border border-rose-500/30 transition-all">
+                <button type="button" onclick="logoutSystem()" title="تسجيل الخروج" class="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 p-2 rounded-xl border border-rose-500/30 transition-all">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -380,10 +358,10 @@
                             <span data-i18n="add_operation">تسجيل عملية</span>
                         </h2>
                     </div>
-                    <button id="cancel-edit-btn" onclick="resetTradeForm()" class="hidden text-xs bg-rose-500/20 text-rose-400 px-3 py-1 rounded-lg border border-rose-500/30">إلغاء التعديل</button>
+                    <button type="button" id="cancel-edit-btn" onclick="resetTradeForm()" class="hidden text-xs bg-rose-500/20 text-rose-400 px-3 py-1 rounded-lg border border-rose-500/30">إلغاء التعديل</button>
                 </div>
 
-                <form id="trade-form" onsubmit="handleAddTransaction(event)" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4 text-xs">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4 text-xs">
                     <input type="hidden" id="edit-tx-id" value="">
                     <div>
                         <label class="block text-slate-400 mb-1" data-i18n="market">السوق</label>
@@ -394,7 +372,7 @@
                     </div>
                     <div>
                         <label class="block text-slate-400 mb-1" data-i18n="symbol">رمز السهم</label>
-                        <input type="text" id="input-symbol" required placeholder="2222 / AAPL" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200 uppercase">
+                        <input type="text" id="input-symbol" placeholder="2222 / AAPL" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200 uppercase">
                     </div>
                     <div>
                         <label class="block text-slate-400 mb-1" data-i18n="op_type">نوع العملية</label>
@@ -405,11 +383,11 @@
                     </div>
                     <div>
                         <label class="block text-slate-400 mb-1" data-i18n="qty">الكمية</label>
-                        <input type="number" id="input-qty" required min="1" step="1" value="100" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
+                        <input type="number" id="input-qty" min="1" step="1" value="100" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
                     </div>
                     <div>
                         <label class="block text-slate-400 mb-1" data-i18n="price">السعر الفردي</label>
-                        <input type="number" id="input-price" required min="0.01" step="0.01" value="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
+                        <input type="number" id="input-price" min="0.01" step="0.01" value="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
                     </div>
                     <div>
                         <label class="block text-slate-400 mb-1" data-i18n="commission">العمولة</label>
@@ -420,12 +398,12 @@
                         <input type="number" id="input-tax" min="0" step="0.01" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
                     </div>
                     <div class="lg:col-span-7 flex justify-end mt-2">
-                        <button type="submit" id="submit-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-6 rounded-lg transition-all flex items-center gap-2">
+                        <button type="button" onclick="handleAddTransaction()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-6 rounded-lg transition-all flex items-center gap-2">
                             <i data-lucide="check-circle" class="w-4 h-4"></i>
                             <span id="submit-btn-text" data-i18n="save_op">حفظ العملية</span>
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
 
             <!-- Transactions Table -->
@@ -437,11 +415,11 @@
                     </h3>
                     <div class="flex items-center gap-2">
                         <input type="text" id="search-tx-input" onkeyup="filterTxTable()" placeholder="تصفية..." class="bg-slate-900 border border-slate-700/80 rounded-lg px-3 py-1.5 text-xs text-slate-200">
-                        <button onclick="exportData('csv')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs py-1.5 px-3 rounded-lg border border-slate-700 flex items-center gap-1">
+                        <button type="button" onclick="exportData()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs py-1.5 px-3 rounded-lg border border-slate-700 flex items-center gap-1">
                             <i data-lucide="download" class="w-3.5 h-3.5"></i>
                             <span data-i18n="export_excel">تصدير Excel/CSV</span>
                         </button>
-                        <button onclick="triggerImport()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs py-1.5 px-3 rounded-lg border border-slate-700 flex items-center gap-1">
+                        <button type="button" onclick="triggerImport()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs py-1.5 px-3 rounded-lg border border-slate-700 flex items-center gap-1">
                             <i data-lucide="upload" class="w-3.5 h-3.5"></i>
                             <span data-i18n="import_data">استيراد</span>
                         </button>
@@ -476,11 +454,11 @@
                     <input type="month" id="report-month-select" value="2026-10" onchange="renderReports()" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-100">
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="exportData('csv')" class="bg-emerald-700/80 hover:bg-emerald-600 text-white text-xs py-1.5 px-3 rounded-lg font-medium flex items-center gap-1.5">
+                    <button type="button" onclick="exportData()" class="bg-emerald-700/80 hover:bg-emerald-600 text-white text-xs py-1.5 px-3 rounded-lg font-medium flex items-center gap-1.5">
                         <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
                         <span data-i18n="export_excel">تصدير Excel</span>
                     </button>
-                    <button onclick="window.print()" class="bg-rose-700/80 hover:bg-rose-600 text-white text-xs py-1.5 px-3 rounded-lg font-medium flex items-center gap-1.5">
+                    <button type="button" onclick="window.print()" class="bg-rose-700/80 hover:bg-rose-600 text-white text-xs py-1.5 px-3 rounded-lg font-medium flex items-center gap-1.5">
                         <i data-lucide="printer" class="w-3.5 h-3.5"></i>
                         <span data-i18n="print_pdf">طباعة / PDF</span>
                     </button>
@@ -533,7 +511,7 @@
                         </thead>
                         <tbody id="members-table-body" class="divide-y divide-slate-800/50">
                             <tr>
-                                <td class="p-3 font-bold text-white">admin (المدير العام)</td>
+                                <td class="p-3 font-bold text-white" id="admin-row-name">admin (المدير العام)</td>
                                 <td class="p-3 text-indigo-400">مدير النظام</td>
                                 <td class="p-3">صلاحية كاملة</td>
                                 <td class="p-3">صلاحية كاملة</td>
@@ -546,7 +524,7 @@
                                 <td class="p-3"><select class="bg-slate-900 text-xs rounded p-1 border border-slate-700"><option>اطلاع وتعديل</option><option>اطلاع فقط</option><option>مخفي</option></select></td>
                                 <td class="p-3"><select class="bg-slate-900 text-xs rounded p-1 border border-slate-700"><option>اطلاع فقط</option><option>اطلاع وتعديل</option></select></td>
                                 <td class="p-3"><select class="bg-slate-900 text-xs rounded p-1 border border-slate-700"><option>اطلاع فقط</option><option>اطلاع وتعديل</option></select></td>
-                                <td class="p-3 text-center"><button onclick="alert('تم حفظ صلاحيات العضو')" class="bg-indigo-600 hover:bg-indigo-500 px-2 py-1 rounded text-white">حفظ</button></td>
+                                <td class="p-3 text-center"><button type="button" onclick="alert('تم حفظ صلاحيات العضو')" class="bg-indigo-600 hover:bg-indigo-500 px-2 py-1 rounded text-white">حفظ</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -599,44 +577,40 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            // Check LocalStorage for Saved Credentials
-            const savedUser = localStorage.getItem('portoflow_saved_user');
-            const savedPass = localStorage.getItem('portoflow_saved_pass');
-            if (savedUser && savedPass) {
-                document.getElementById('login-username').value = savedUser;
-                document.getElementById('login-password').value = savedPass;
-                document.getElementById('remember-me').checked = true;
+            const storedAdmin = localStorage.getItem('portoflow_admin_user');
+            if (!storedAdmin) {
+                // First time setup view
+                document.getElementById('setup-subtitle').innerText = "إعداد أول مرة: أنشئ حساب المدير";
+                document.getElementById('login-form-title').innerHTML = '<i data-lucide="user-plus" class="w-4 h-4 text-indigo-400"></i> إنشاء حساب المدير الجديد';
+                document.getElementById('login-btn-text').innerHTML = '<i data-lucide="check-circle" class="w-4 h-4"></i><span>إنشاء الحساب والدخول</span>';
+            } else {
+                // Already setup, use saved credentials
+                const parts = storedAdmin.split(':');
+                document.getElementById('login-username').value = parts[0];
+                if(parts[1]) document.getElementById('login-password').value = parts[1];
+                document.getElementById('setup-subtitle').innerText = "تسجيل الدخول إلى النظام";
+                document.getElementById('login-form-title').innerHTML = '<i data-lucide="lock" class="w-4 h-4 text-indigo-400"></i> تسجيل الدخول';
+                document.getElementById('login-btn-text').innerHTML = '<i data-lucide="log-in" class="w-4 h-4"></i><span>دخول النظام</span>';
             }
+            lucide.createIcons();
         });
 
-        // Login Handler with Remember Me
-        function processLogin(e) {
-            e.preventDefault();
+        function processLogin() {
             const username = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value;
-            const remember = document.getElementById('remember-me').checked;
 
-            if (remember) {
-                localStorage.setItem('portoflow_saved_user', username);
-                localStorage.setItem('portoflow_saved_pass', password);
-            } else {
-                localStorage.removeItem('portoflow_saved_user');
-                localStorage.removeItem('portoflow_saved_pass');
+            if(!username || !password) {
+                alert('يرجى إدخال اسم المستخدم وكلمة السر');
+                return;
             }
 
-            currentUserRole = username.toLowerCase() === 'admin' ? 'admin' : 'member';
-            executeLoginSuccess(username);
-        }
+            // Save admin credentials if not already set
+            if(!localStorage.getItem('portoflow_admin_user')) {
+                localStorage.setItem('portoflow_admin_user', `${username}:${password}`);
+            }
 
-        function quickDemoLogin(role) {
-            currentUserRole = role;
-            const username = role === 'admin' ? 'admin' : 'member';
-            const password = role === 'admin' ? 'admin123' : 'member123';
-            document.getElementById('login-username').value = username;
-            document.getElementById('login-password').value = password;
-            document.getElementById('remember-me').checked = true;
-            localStorage.setItem('portoflow_saved_user', username);
-            localStorage.setItem('portoflow_saved_pass', password);
+            currentUserRole = 'admin';
+            document.getElementById('admin-row-name').innerText = `${username} (المدير العام)`;
             executeLoginSuccess(username);
         }
 
@@ -646,13 +620,9 @@
             
             const roleBadge = document.getElementById('role-badge');
             const userName = document.getElementById('logged-user-name');
-            if (currentUserRole === 'admin') {
-                roleBadge.innerText = currentAppLang === 'ar' ? 'مدير النظام (Admin)' : 'System Admin';
-                userName.innerText = username;
-            } else {
-                roleBadge.innerText = currentAppLang === 'ar' ? 'عضو النظام (Member)' : 'System Member';
-                userName.innerText = username;
-            }
+            roleBadge.innerText = currentAppLang === 'ar' ? 'مدير النظام (Admin)' : 'System Admin';
+            userName.innerText = username;
+            
             renderAllViews();
         }
 
@@ -795,7 +765,7 @@
                     <td class="p-3">${s.market}</td>
                     <td class="p-3 text-slate-300">أداء مستقر للسهم بناءً على التداولات المسجلة.</td>
                     <td class="p-3"><input type="text" id="note-${s.symbol}" value="${stockNotes[s.symbol] || ''}" placeholder="ملاحظة شخصية..." class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs"></td>
-                    <td class="p-3 text-center"><button onclick="saveNote('${s.symbol}')" class="bg-indigo-600 hover:bg-indigo-500 px-2 py-1 rounded text-white text-[11px]">حفظ</button></td>
+                    <td class="p-3 text-center"><button type="button" onclick="saveNote('${s.symbol}')" class="bg-indigo-600 hover:bg-indigo-500 px-2 py-1 rounded text-white text-[11px]">حفظ</button></td>
                 </tr>
             `).join('');
         }
@@ -825,8 +795,8 @@
                         <td class="p-3 font-mono">${t.price.toFixed(2)}</td>
                         <td class="p-3 font-mono font-bold text-white">${totalNet.toFixed(2)}</td>
                         <td class="p-3 text-center flex items-center justify-center gap-2">
-                            <button onclick="editTx(${t.id})" class="p-1 bg-indigo-500/10 text-indigo-400 rounded"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
-                            <button onclick="deleteTx(${t.id})" class="p-1 bg-rose-500/10 text-rose-400 rounded"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                            <button type="button" onclick="editTx(${t.id})" class="p-1 bg-indigo-500/10 text-indigo-400 rounded"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
+                            <button type="button" onclick="deleteTx(${t.id})" class="p-1 bg-rose-500/10 text-rose-400 rounded"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                         </td>
                     </tr>
                 `;
@@ -834,8 +804,7 @@
             lucide.createIcons();
         }
 
-        function handleAddTransaction(e) {
-            e.preventDefault();
+        function handleAddTransaction() {
             const editId = document.getElementById('edit-tx-id').value;
             const market = document.getElementById('input-market').value;
             const symbol = document.getElementById('input-symbol').value.toUpperCase();
@@ -845,6 +814,11 @@
             const commission = parseFloat(document.getElementById('input-commission').value) || 0;
             const tax = parseFloat(document.getElementById('input-tax').value) || 0;
             const now = new Date().toISOString().split('T')[0];
+
+            if(!symbol) {
+                alert('يرجى إدخال رمز السهم');
+                return;
+            }
 
             if (editId) {
                 const idx = transactions.findIndex(t => t.id == editId);
@@ -878,7 +852,11 @@
         }
 
         function resetTradeForm() {
-            document.getElementById('trade-form').reset();
+            document.getElementById('input-symbol').value = '';
+            document.getElementById('input-qty').value = '100';
+            document.getElementById('input-price').value = '0.00';
+            document.getElementById('input-commission').value = '0';
+            document.getElementById('input-tax').value = '0';
             document.getElementById('edit-tx-id').value = '';
             document.getElementById('submit-btn-text').innerText = 'حفظ العملية';
             document.getElementById('cancel-edit-btn').classList.add('hidden');
@@ -914,7 +892,7 @@
             }).join('');
         }
 
-        function exportData(format) {
+        function exportData() {
             let csv = currentAppLang === 'ar' 
                 ? 'التاريخ,السوق,السهم,النوع,الكمية,السعر,العمولة,الضريبة\n'
                 : 'Date,Market,Symbol,Type,Quantity,Price,Commission,Tax\n';
