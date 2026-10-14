@@ -46,7 +46,7 @@
 </head>
 <body class="p-3 md:p-6 text-slate-200">
 
-    <!-- 1. LOGIN SECTION -->
+    <!-- 1. SECURE LOGIN SECTION -->
     <div id="login-container" class="flex items-center justify-center min-h-[90vh]">
         <div class="w-full max-w-md">
             <div class="text-center mb-8">
@@ -54,7 +54,7 @@
                     <i data-lucide="shield-check" class="w-8 h-8"></i>
                 </div>
                 <h1 class="text-2xl font-bold tracking-wide text-white">نظام إدارة المحافظ الاستثمارية</h1>
-                <p class="text-xs text-indigo-400 font-semibold mt-1.5">تسجيل الدخول للنظام (اسم المستخدم وكلمة المرور)</p>
+                <p class="text-xs text-indigo-400 font-semibold mt-1.5">تسجيل الدخول الآمن (اسم المستخدم وكلمة المرور الخاصة)</p>
             </div>
 
             <div class="glass-panel p-8">
@@ -70,7 +70,7 @@
                         <label class="block text-slate-300 mb-1.5 font-medium">اسم المستخدم</label>
                         <div class="relative">
                             <i data-lucide="user" class="w-4 h-4 absolute right-3.5 top-3 text-slate-500"></i>
-                            <input type="text" id="login-username" value="admin" placeholder="admin" 
+                            <input type="text" id="login-username" placeholder="أدخل اسم المستخدم" 
                                 class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pr-10 pl-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all">
                         </div>
                     </div>
@@ -79,22 +79,19 @@
                         <label class="block text-slate-300 mb-1.5 font-medium">كلمة المرور</label>
                         <div class="relative">
                             <i data-lucide="key" class="w-4 h-4 absolute right-3.5 top-3 text-slate-500"></i>
-                            <input type="password" id="login-password" value="admin123" placeholder="••••••••" 
+                            <input type="password" id="login-password" placeholder="••••••••" 
                                 class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pr-10 pl-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all">
                         </div>
-                    </div>
-
-                    <div class="flex items-center justify-between py-1">
-                        <label class="flex items-center gap-2 text-slate-400 cursor-pointer">
-                            <input type="checkbox" id="remember-me" checked class="rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-0">
-                            <span>حفظ اسم المستخدم وكلمة المرور</span>
-                        </label>
                     </div>
 
                     <button type="button" onclick="processLogin()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 text-sm">
                         <i data-lucide="log-in" class="w-4 h-4"></i>
                         <span>دخول النظام</span>
                     </button>
+                    
+                    <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800 text-[11px] text-slate-400 text-center">
+                        البيانات الافتراضية للمدير: <span class="text-indigo-400 font-bold">admin</span> / كلمة المرور: <span class="text-indigo-400 font-bold">admin123</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -158,17 +155,31 @@
             </div>
         </header>
 
-        <!-- LIVE TICKERS SECTION -->
+        <!-- LIVE TICKERS SECTION: Row 1 (Market Indexes), Row 2 (Portfolio Stocks) -->
         <div class="space-y-2">
+            <!-- Row 1: Market Indexes -->
+            <div class="glass-panel-sm rounded-xl overflow-hidden py-2 border-slate-800/80">
+                <div class="flex items-center">
+                    <div class="px-3 py-1 bg-amber-500/10 border-l border-slate-700/50 text-amber-400 text-xs font-bold shrink-0 flex items-center gap-1">
+                        <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+                        <span>مؤشرات الأسواق العالمية والمحلية</span>
+                    </div>
+                    <div class="ticker-wrap flex-1 text-xs">
+                        <div id="market-ticker-content" class="ticker-move flex items-center gap-8 px-4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: Portfolio Stocks Ticker -->
             <div class="glass-panel-sm rounded-xl overflow-hidden py-2 border-slate-800/80">
                 <div class="flex items-center">
                     <div class="px-3 py-1 bg-indigo-500/10 border-l border-slate-700/50 text-indigo-400 text-xs font-bold shrink-0 flex items-center gap-1">
                         <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
-                        <span>أسعار الأسهم ومؤشرات الأسواق</span>
+                        <span>أسعار أسهم المحفظة الحية</span>
                     </div>
                     <div class="ticker-wrap flex-1 text-xs">
                         <div id="stock-ticker-content" class="ticker-move flex items-center gap-8 px-4">
-                            <span class="text-slate-500">لا توجد أسهم مضافة حالياً</span>
+                            <span class="text-slate-500">لا توجد أسهم مضافة حالياً في المحفظة</span>
                         </div>
                     </div>
                 </div>
@@ -520,28 +531,47 @@
         const EXCHANGE_RATE = 3.75;
         let transactions = [];
         let stockNotes = {};
-        let membersList = [
-            { id: 1, name: 'admin', role: 'مدير النظام', tasi: 'اطلاع وتعديل', us: 'اطلاع وتعديل', ops: 'اطلاع وتعديل' }
+
+        let usersDatabase = [
+            { username: 'admin', pass: 'admin123', role: 'مدير النظام', tasi: 'اطلاع وتعديل', us: 'اطلاع وتعديل', ops: 'اطلاع وتعديل' }
         ];
 
         const marketIndexes = [
-            { name: 'تداول (TASI)', market: 'TASI', val: '11,845.20', change: '+42.50', ratio: '+0.36%', isUp: true },
-            { name: 'S&P 500', market: 'US', val: '5,088.80', change: '+18.20', ratio: '+0.36%', isUp: true },
-            { name: 'Nasdaq 100', market: 'US', val: '17,925.40', change: '-24.10', ratio: '-0.13%', isUp: false }
+            { name: 'تداول (TASI)', val: '11,845.20', change: '+42.50', ratio: '+0.36%', isUp: true },
+            { name: 'S&P 500', val: '5,088.80', change: '+18.20', ratio: '+0.36%', isUp: true },
+            { name: 'Nasdaq 100', val: '17,925.40', change: '-24.10', ratio: '-0.13%', isUp: false },
+            { name: 'Dow Jones', val: '38,790.10', change: '+115.40', ratio: '+0.30%', isUp: true }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
+            renderMarketTicker();
             renderMembersTable();
         });
 
         function processLogin() {
-            const username = document.getElementById('login-username').value.trim() || 'admin';
+            const usernameInput = document.getElementById('login-username').value.trim();
+            const passwordInput = document.getElementById('login-password').value;
+
+            const matchedUser = usersDatabase.find(u => u.username === usernameInput && u.pass === passwordInput);
+
+            if (!matchedUser) {
+                alert('خطأ: اسم المستخدم أو كلمة المرور غير صحيحة!');
+                return;
+            }
+
             document.getElementById('login-container').classList.add('hidden');
             document.getElementById('main-app-container').classList.remove('hidden');
             
-            document.getElementById('logged-user-name').innerText = username;
+            document.getElementById('logged-user-name').innerText = matchedUser.username;
+            const roleBadge = document.getElementById('role-badge');
             
+            if (matchedUser.username === 'admin') {
+                roleBadge.innerText = 'مدير النظام (Admin)';
+            } else {
+                roleBadge.innerText = `عضو نظام (${matchedUser.role})`;
+            }
+
             renderAllViews();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
@@ -549,6 +579,8 @@
         function logoutSystem() {
             document.getElementById('main-app-container').classList.add('hidden');
             document.getElementById('login-container').classList.remove('hidden');
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
         }
 
         function switchTab(tabId) {
@@ -569,23 +601,33 @@
 
         function addNewMember() {
             const name = document.getElementById('new-member-name').value.trim();
+            const pass = document.getElementById('new-member-pass').value;
             const role = document.getElementById('new-member-role').value;
-            if(!name) {
-                alert('يرجى إدخال اسم العضو');
+
+            if(!name || !pass) {
+                alert('يرجى إدخال اسم العضو وكلمة المرور الخاصة به');
                 return;
             }
-            membersList.push({ id: Date.now(), name, role, tasi: 'اطلاع وتعديل', us: 'اطلاع فقط', ops: 'اطلاع فقط' });
+
+            if (usersDatabase.some(u => u.username === name)) {
+                alert('اسم المستخدم موجود مسبقاً، يرجى اختيار اسم مختلف');
+                return;
+            }
+
+            usersDatabase.push({ username: name, pass: pass, role: role, tasi: 'اطلاع وتعديل', us: 'اطلاع فقط', ops: 'اطلاع فقط' });
+            
             renderMembersTable();
             document.getElementById('new-member-name').value = '';
-            alert('تم إضافة العضو بنجاح وتفعيل أذوناته');
+            document.getElementById('new-member-pass').value = '';
+            alert(`تم إضافة العضو "${name}" بنجاح وأصبح بإمكانه الدخول بكلمة المرور المخصصة له.`);
         }
 
         function renderMembersTable() {
             const tbody = document.getElementById('members-table-body');
             if (!tbody) return;
-            tbody.innerHTML = membersList.map((m) => `
+            tbody.innerHTML = usersDatabase.map((m) => `
                 <tr class="hover:bg-slate-800/40 border-b border-slate-800/40">
-                    <td class="p-3 font-bold text-white">${m.name}</td>
+                    <td class="p-3 font-bold text-white">${m.username}</td>
                     <td class="p-3 text-indigo-400">${m.role}</td>
                     <td class="p-3">
                         <select class="bg-slate-900 text-xs rounded p-1 border border-slate-700 text-slate-300">
@@ -608,7 +650,7 @@
                         </select>
                     </td>
                     <td class="p-3 text-center">
-                        <button type="button" onclick="alert('تم حفظ صلاحيات العضو ${m.name} بنجاح')" class="bg-indigo-600 hover:bg-indigo-500 px-2.5 py-1 rounded text-white text-[11px]">حفظ</button>
+                        <button type="button" onclick="alert('تم حفظ أذونات الصلاحيات للعضو ${m.username}')" class="bg-indigo-600 hover:bg-indigo-500 px-2.5 py-1 rounded text-white text-[11px]">حفظ</button>
                     </td>
                 </tr>
             `).join('');
@@ -619,7 +661,7 @@
             transactions.forEach(t => {
                 const key = `${t.market}_${t.symbol}`;
                 if (!holdings[key]) {
-                    holdings[key] = { symbol: t.symbol, market: t.market, qty: 0, totalCost: 0, avgCost: 0, currentPrice: t.price, prevClose: t.price * 0.99 };
+                    holdings[key] = { symbol: t.symbol, market: t.market, qty: 0, totalCost: 0, avgCost: 0, currentPrice: t.price };
                 }
                 const netVal = (t.qty * t.price) + (t.type === 'شراء' ? (t.commission + t.tax) : -(t.commission + t.tax));
                 if (t.type === 'شراء') {
@@ -637,7 +679,8 @@
         }
 
         function renderAllViews() {
-            renderTickers();
+            renderMarketTicker();
+            renderStockTicker();
             renderKPIs();
             renderTable1();
             renderTable2();
@@ -646,27 +689,31 @@
             renderMembersTable();
         }
 
-        function renderTickers() {
-            const stockTickerEl = document.getElementById('stock-ticker-content');
-            const holdings = calculateHoldings();
-            
-            let html = marketIndexes.map(idx => `
+        function renderMarketTicker() {
+            const marketTickerEl = document.getElementById('market-ticker-content');
+            if(!marketTickerEl) return;
+            marketTickerEl.innerHTML = marketIndexes.map(idx => `
                 <div class="inline-flex items-center gap-2 bg-slate-900/50 px-3 py-1 rounded-lg border border-slate-800">
                     <span class="font-bold text-amber-400">${idx.name}</span>
                     <span class="text-slate-200 font-mono">${idx.val}</span>
                     <span class="${idx.isUp ? 'text-emerald-400' : 'text-rose-400'} font-semibold dir-ltr">${idx.change} (${idx.ratio})</span>
                 </div>
             `).join('');
+        }
 
-            if (holdings.length > 0) {
-                html += holdings.map(s => `
-                    <div class="inline-flex items-center gap-2 bg-slate-900/50 px-3 py-1 rounded-lg border border-slate-800">
-                        <span class="font-bold text-slate-200">${s.symbol} (${s.market})</span>
-                        <span class="text-slate-300 font-mono">${s.currentPrice.toFixed(2)}</span>
-                    </div>
-                `).join('');
+        function renderStockTicker() {
+            const stockTickerEl = document.getElementById('stock-ticker-content');
+            const holdings = calculateHoldings();
+            if (holdings.length === 0) {
+                stockTickerEl.innerHTML = '<span class="text-slate-500">لا توجد أسهم مضافة حالياً في المحفظة</span>';
+                return;
             }
-            stockTickerEl.innerHTML = html;
+            stockTickerEl.innerHTML = holdings.map(s => `
+                <div class="inline-flex items-center gap-2 bg-slate-900/50 px-3 py-1 rounded-lg border border-slate-800">
+                    <span class="font-bold text-slate-200">${s.symbol} (${s.market})</span>
+                    <span class="text-slate-300 font-mono">${s.currentPrice.toFixed(2)}</span>
+                </div>
+            `).join('');
         }
 
         function renderKPIs() {
