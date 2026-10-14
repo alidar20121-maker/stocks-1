@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>منصة متابعة الأسهم - النسخة المحدثة الشاملة</title>
+  <title>لوحة متابعة الأسهم - السوق السعودي والأمريكي (النسخة الشاملة)</title>
   <style>
     :root {
       --bg-color: #131722;
@@ -15,32 +15,64 @@
       --red-color: #f23645;
       --ai-color: #9b51e0;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-    body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; }
-    
-    /* الهيدر وشريط الصلاحيات */
-    header { 
-      background-color: var(--card-bg); 
-      padding: 15px 20px; 
-      border-bottom: 1px solid var(--border-color); 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      flex-wrap: wrap; 
-      gap: 15px; 
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    
-    .user-box { display: flex; align-items: center; gap: 10px; }
-    select { background: #2a2e39; color: #fff; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; font-weight: bold; }
-    
-    /* شريط التنقل بين التبويبات */
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* الهيدر العلوي وشريط التنقل بين المستخدمين */
+    header {
+      background-color: var(--card-bg);
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+      color: #fff;
+    }
+
+    .user-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    select {
+      background: #2a2e39;
+      color: #fff;
+      border: 1px solid var(--border-color);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    /* شريط التنقل بين التبويبات الرئيسي */
     .nav-tabs {
       display: flex;
       gap: 10px;
       background-color: var(--card-bg);
       padding: 10px 20px;
       border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
     }
+
     .tab-btn {
       background: #2a2e39;
       color: #fff;
@@ -51,78 +83,219 @@
       font-weight: bold;
       transition: all 0.2s ease;
     }
+
     .tab-btn.active {
       background-color: var(--accent-color);
       border-color: var(--accent-color);
     }
 
-    .container { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 20px; }
-    .panel { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; }
-    
-    .tab-content { display: none; flex-direction: column; gap: 20px; }
-    .tab-content.active { display: flex; }
+    /* شريط الأسعار المتحرك (Ticker Tape) */
+    .ticker-container {
+      width: 100%;
+      height: 46px;
+      border-bottom: 1px solid var(--border-color);
+    }
 
-    /* شبكة الأسهم المرتفعة يميناً والمنخفضة يساراً */
+    .container {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .tab-content {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .tab-content.active {
+      display: flex;
+    }
+
+    /* شبكة الشارت وقائمة المتابعة الحية */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 15px;
+      flex: 1;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* بطاقات وألواح النظام */
+    .panel {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .panel-header {
+      padding: 12px 15px;
+      font-weight: bold;
+      border-bottom: 1px solid var(--border-color);
+      background-color: rgba(255, 255, 255, 0.02);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: -20px -20px 20px -20px;
+    }
+
+    .chart-panel {
+      min-height: 550px;
+      padding: 0;
+    }
+
+    .watchlist-panel {
+      height: 100%;
+      min-height: 550px;
+      padding: 0;
+    }
+
+    /* شبكة الأسهم المرتفعة (يمين) والمنخفضة (يسار) */
     .market-split-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 15px;
-      margin-top: 15px;
     }
+
     @media (max-width: 768px) {
-      .market-split-grid { grid-template-columns: 1fr; }
+      .market-split-grid {
+        grid-template-columns: 1fr;
+      }
     }
+
     .market-side-card {
       background: #131722;
       padding: 15px;
       border-radius: 6px;
       border: 1px solid var(--border-color);
     }
-    .market-side-card.gainers { border-right: 4px solid var(--green-color); }
-    .market-side-card.losers { border-left: 4px solid var(--red-color); }
 
-    /* الجداول وإعادة الترتيب التفاعلي */
-    .sortable-table { width: 100%; border-collapse: collapse; margin-top: 10px; text-align: right; }
-    .sortable-table th, .sortable-table td { border: 1px solid var(--border-color); padding: 10px; font-size: 0.88rem; }
-    .sortable-table th { 
-      background-color: #2a2e39; 
-      cursor: pointer; 
+    .market-side-card.gainers {
+      border-right: 4px solid var(--green-color);
+    }
+
+    .market-side-card.losers {
+      border-left: 4px solid var(--red-color);
+    }
+
+    /* الجداول القابلة للفرز والترتيب التفاعلي */
+    .sortable-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      text-align: right;
+    }
+
+    .sortable-table th, .sortable-table td {
+      border: 1px solid var(--border-color);
+      padding: 10px;
+      font-size: 0.88rem;
+    }
+
+    .sortable-table th {
+      background-color: #2a2e39;
+      cursor: pointer;
       user-select: none;
       transition: background-color 0.2s;
       white-space: nowrap;
     }
-    .sortable-table th:hover { background-color: #363c4e; }
-    .sort-icon { font-size: 0.8rem; margin-right: 4px; opacity: 0.6; }
 
-    /* وسوم التحليل والحالات */
-    .badge-ai { background: rgba(155, 81, 224, 0.15); border: 1px solid var(--ai-color); color: #c880ff; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; display: inline-block; }
-    .badge-manual { background: rgba(41, 98, 255, 0.15); border: 1px solid var(--accent-color); color: #82b1ff; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; display: inline-block; }
-    .badge-status { background: rgba(8, 153, 129, 0.15); border: 1px solid var(--green-color); color: #00ffcc; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; }
+    .sortable-table th:hover {
+      background-color: #363c4e;
+    }
 
-    /* شبكة المستطيلات والبطاقات المالية */
+    .sort-icon {
+      font-size: 0.8rem;
+      margin-right: 4px;
+      opacity: 0.6;
+    }
+
+    /* وسوم التحليلات والحالات */
+    .badge-ai {
+      background: rgba(155, 81, 224, 0.15);
+      border: 1px solid var(--ai-color);
+      color: #c880ff;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      display: inline-block;
+    }
+
+    .badge-manual {
+      background: rgba(41, 98, 255, 0.15);
+      border: 1px solid var(--accent-color);
+      color: #82b1ff;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      display: inline-block;
+    }
+
+    .badge-status {
+      background: rgba(8, 153, 129, 0.15);
+      border: 1px solid var(--green-color);
+      color: #00ffcc;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+    }
+
+    /* شبكة البطاقات والمستطيلات المالية */
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 15px;
       margin-top: 15px;
     }
+
     .metric-card {
       background: #131722;
       padding: 15px;
       border-radius: 6px;
       border: 1px solid var(--border-color);
     }
-    .metric-card p { color: #9598a1; font-size: 0.85rem; }
-    .metric-card h4 { font-size: 1.2rem; margin-top: 5px; }
+
+    .metric-card p {
+      color: #9598a1;
+      font-size: 0.85rem;
+    }
+
+    .metric-card h4 {
+      font-size: 1.2rem;
+      margin-top: 5px;
+    }
+
+    /* قسم البيانات المالية والتقييم الفني */
+    .financials-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 15px;
+    }
+
+    .financials-card {
+      height: 450px;
+      padding: 0;
+    }
   </style>
 </head>
 <body>
 
-  <!-- الهيدر واختيار المستخدم / الصلاحية -->
+  <!-- Header -->
   <header>
-    <h1>📈 منصة متابعة وإدارة الأسهم</h1>
+    <h1>📈 منصة متابعة وإدارة الأسهم (السوق السعودي والأمريكي)</h1>
     <div class="user-box">
-      <span>اختيار المستخدم:</span>
+      <span>اختيار المستخدم / الصلاحية:</span>
       <select id="userSelect" onchange="changeUser()">
         <option value="user1">أحمد (مستثمر السوق السعودي - ر.س)</option>
         <option value="user2">جون (مستثمر السوق الأمريكي - \$)</option>
@@ -131,20 +304,48 @@
     </div>
   </header>
 
-  <!-- شريط التنقل بين التبويبات الرئيسي -->
+  <!-- 1. شريط الأسعار الحية العلوي (Ticker Tape Widget) -->
+  <div class="ticker-container">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+      {
+        "symbols": [
+          { "proName": "TADAWUL:1120", "title": "مصرف الراجحي" },
+          { "proName": "TADAWUL:2222", "title": "أرامكو السعودية" },
+          { "proName": "TADAWUL:7010", "title": "إس تي سي" },
+          { "proName": "NASDAQ:AAPL", "title": "Apple" },
+          { "proName": "NASDAQ:MSFT", "title": "Microsoft" },
+          { "proName": "NASDAQ:NVDA", "title": "NVIDIA" },
+          { "proName": "NASDAQ:TSLA", "title": "Tesla" }
+        ],
+        "showSymbolLogo": true,
+        "colorTheme": "dark",
+        "isTransparent": false,
+        "displayMode": "adaptive",
+        "locale": "ar_AE"
+      }
+      </script>
+    </div>
+  </div>
+
+  <!-- شريط التنقل بين التبويبات -->
   <div class="nav-tabs">
     <button class="tab-btn active" onclick="switchTab('operations')">📊 صفحة العمليات وملخص المحفظة</button>
     <button class="tab-btn" onclick="switchTab('orders')">📋 تبويب الأوامر (شراء / بيع)</button>
+    <button class="tab-btn" onclick="switchTab('charts')">📈 الرسم البياني والتقارير الحية</button>
   </div>
 
   <div class="container">
-    
+
     <!-- ================= 1. تبويب العمليات وملخص المحفظة ================= -->
     <div id="tab-operations" class="tab-content active">
       
-      <!-- حركة الأسهم المباشرة (المرتفعة يميناً والمنخفضة يساراً) -->
+      <!-- حركة الأسهم المباشرة: الأسهم المرتفعة (يمين) والمنخفضة (يسار) -->
       <div class="panel">
-        <h3>حركة الأسهم المباشرة</h3>
+        <div class="panel-header">
+          <span>حركة الأسهم المباشرة</span>
+        </div>
         <div class="market-split-grid">
           <div class="market-side-card gainers">
             <h4 style="color: var(--green-color); margin-bottom: 10px;">🟢 الأسهم المرتفعة (يمين)</h4>
@@ -173,28 +374,155 @@
         </div>
       </div>
 
-      <!-- معلومات الصلاحيات والمستخدم -->
+      <!-- معلومات الصلاحيات -->
       <div class="panel">
         <h2 id="welcomeTitle">مرحباً بك</h2>
         <p id="roleDescription" style="margin-top: 10px; color: #9598a1;"></p>
       </div>
 
-      <!-- ملخص المحفظة والتكاليف والتحليلات -->
+      <!-- ملخص المحفظة والرسوم والتحليلات -->
       <div class="panel" id="marketDataPanel">
-        <h3 id="panelTitle">ملخص المحفظة وتحليل الأسهم</h3>
-        <div id="portfolioContent" style="margin-top: 15px;"></div>
+        <div class="panel-header">
+          <span id="panelTitle">ملخص المحفظة وتحليل الأسهم</span>
+        </div>
+        <div id="portfolioContent"></div>
       </div>
 
     </div>
 
-    <!-- ================= 2. تبويب الأوامر المستقل ================= -->
+    <!-- ================= 2. تبويب الأوامر المستقل (شراء / بيع / GTC) ================= -->
     <div id="tab-orders" class="tab-content">
-      
       <div class="panel">
-        <h3>📋 إدارة أوامر التداول (اليومية وأوامر حتى الإلغاء)</h3>
-        <p style="color: #9598a1; font-size: 0.9rem; margin-top: 5px;">استعراض أوامر الشراء والبيع اليومية وأوامر حتى الإلغاء (GTC) بشكل مستقل ومخصص.</p>
-        
-        <div id="ordersContent" style="margin-top: 20px;"></div>
+        <div class="panel-header">
+          <span>📋 إدارة أوامر التداول (اليومية وأوامر حتى الإلغاء)</span>
+        </div>
+        <p style="color: #9598a1; font-size: 0.9rem; margin-bottom: 15px;">عرض وإدارة أوامر الشراء والبيع اليومية وأوامر حتى الإلغاء (GTC) بحسب الصلاحيات.</p>
+        <div id="ordersContent"></div>
+      </div>
+    </div>
+
+    <!-- ================= 3. تبويب الرسم البياني الشامل المباشر ================= -->
+    <div id="tab-charts" class="tab-content">
+      
+      <!-- الشارت التفاعلي + قائمة المتابعة -->
+      <div class="dashboard-grid">
+        <div class="panel chart-panel">
+          <div class="panel-header">
+            <span>الرسم البياني التفاعلي (المتوسطات والتحليل الفني)[cite: 5]</span>
+          </div>
+          <div class="tradingview-widget-container" style="height:100%;width:100%">
+            <div id="tradingview_chart" style="height:calc(100% - 32px);width:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+            <script type="text/javascript">
+              new TradingView.widget({
+                "autosize": true,
+                "symbol": "TADAWUL:1120",
+                "interval": "D",
+                "timezone": "Asia/Riyadh",
+                "theme": "dark",
+                "style": "1",
+                "locale": "ar_AE",
+                "toolbar_bg": "#f1f3f6",
+                "enable_publishing": false,
+                "allow_symbol_change": true,
+                "container_id": "tradingview_chart",
+                "studies": [
+                  "STD;MA%Ribbon",
+                  "STD;RSI"
+                ]
+              });
+            </script>
+          </div>
+        </div>
+
+        <div class="panel watchlist-panel">
+          <div class="panel-header">
+            <span>قائمة الأسهم المختارة[cite: 5]</span>
+          </div>
+          <div class="tradingview-widget-container" style="height:100%">
+            <div class="tradingview-widget-container__widget" style="height:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+            {
+              "colorTheme": "dark",
+              "dateRange": "12M",
+              "showChart": true,
+              "locale": "ar_AE",
+              "largeChartUrl": "",
+              "isTransparent": false,
+              "showSymbolLogo": true,
+              "showFloatingTooltip": false,
+              "width": "100%",
+              "height": "100%",
+              "tabs": [
+                {
+                  "title": "السوق السعودي",
+                  "symbols": [
+                    { "s": "TADAWUL:1120", "d": "الراجحي" },
+                    { "s": "TADAWUL:2222", "d": "أرامكو" },
+                    { "s": "TADAWUL:7010", "d": "STC" },
+                    { "s": "TADAWUL:1180", "d": "الأهلي" }
+                  ]
+                },
+                {
+                  "title": "السوق الأمريكي",
+                  "symbols": [
+                    { "s": "NASDAQ:AAPL", "d": "Apple" },
+                    { "s": "NASDAQ:MSFT", "d": "Microsoft" },
+                    { "s": "NASDAQ:NVDA", "d": "NVIDIA" },
+                    { "s": "NASDAQ:TSLA", "d": "Tesla" }
+                  ]
+                }
+              ]
+            }
+            </script>
+          </div>
+        </div>
+      </div>
+
+      <!-- تقارير الأرباح والبيانات المالية والتقييم الفني -->
+      <div class="financials-section">
+        <div class="panel financials-card">
+          <div class="panel-header">
+            <span>البيانات المالية وتقارير الأرباح والخسائر[cite: 5]</span>
+          </div>
+          <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-financials.js" async>
+            {
+              "colorTheme": "dark",
+              "isTransparent": false,
+              "largeChartUrl": "",
+              "displayMode": "regular",
+              "width": "100%",
+              "height": "100%",
+              "symbol": "TADAWUL:1120",
+              "locale": "ar_AE"
+            }
+            </script>
+          </div>
+        </div>
+
+        <div class="panel financials-card">
+          <div class="panel-header">
+            <span>ملخص التقييم الفني والمؤشرات[cite: 5]</span>
+          </div>
+          <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+            {
+              "interval": "1D",
+              "width": "100%",
+              "isTransparent": false,
+              "height": "100%",
+              "symbol": "TADAWUL:1120",
+              "showIntervalTabs": true,
+              "displayMode": "single",
+              "locale": "ar_AE",
+              "colorTheme": "dark"
+            }
+            </script>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -202,7 +530,7 @@
   </div>
 
   <script>
-    // قاعدة البيانات والمحاكاة لجميع المستخدمين والصلاحيات
+    // قاعدة البيانات المحاكاة للنظام
     const systemData = {
       user1: {
         name: "أحمد",
@@ -323,6 +651,9 @@
       } else if (tabName === 'orders') {
         document.getElementById('tab-orders').classList.add('active');
         document.querySelectorAll('.nav-tabs .tab-btn')[1].classList.add('active');
+      } else if (tabName === 'charts') {
+        document.getElementById('tab-charts').classList.add('active');
+        document.querySelectorAll('.nav-tabs .tab-btn')[2].classList.add('active');
       }
     }
 
@@ -333,7 +664,7 @@
       document.getElementById('welcomeTitle').innerText = `مرحباً، ${data.name}`;
       document.getElementById('roleDescription').innerText = `نوع الصلاحية: ${data.role}`;
 
-      // تعبئة جدول الأسهم المرتفعة والمنخفضة
+      // تعبئة الأسهم المرتفعة والمنخفضة
       const gainersContainer = document.getElementById('gainersList');
       const losersContainer = document.getElementById('losersList');
       
@@ -358,7 +689,7 @@
         `;
       });
 
-      // عرض ملخص المحفظة في تبويب العمليات
+      // عرض ملخص المحفظة والتكاليف
       const portfolioDiv = document.getElementById('portfolioContent');
       const panelTitle = document.getElementById('panelTitle');
 
@@ -485,7 +816,7 @@
         portfolioDiv.innerHTML = html;
       }
 
-      // تعبئة تبويب الأوامر (اليومية وأوامر حتى الإلغاء)
+      // تعبئة تبويب الأوامر
       const ordersContainer = document.getElementById('ordersContent');
       if (data.type === 'admin') {
         ordersContainer.innerHTML = `
@@ -626,7 +957,7 @@
       }
     }
 
-    // دالة الفرز وإعادة الترتيب التفاعلية لجميع أعمدة الجداول
+    // دالة الفرز المباشر لكل الأعمدة
     function sortTable(tableId, columnIndex) {
       const table = document.getElementById(tableId);
       if (!table) return;
@@ -680,7 +1011,7 @@
       }
     }
 
-    // التشغيل التلقائي عند بدء التحميل
+    // التهيئة الأولى
     changeUser();
   </script>
 </body>
