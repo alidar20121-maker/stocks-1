@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة متابعة الأسهم - السوق السعودي والأمريكي</title>
+  <title>منصة متابعة الأسهم - النسخة المحدثة الشاملة</title>
   <style>
     :root {
       --bg-color: #131722;
@@ -11,262 +11,677 @@
       --text-color: #d1d4dc;
       --accent-color: #2962ff;
       --border-color: #2a2e39;
+      --green-color: #089981;
+      --red-color: #f23645;
+      --ai-color: #9b51e0;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; }
+    
+    /* الهيدر وشريط الصلاحيات */
+    header { 
+      background-color: var(--card-bg); 
+      padding: 15px 20px; 
+      border-bottom: 1px solid var(--border-color); 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      flex-wrap: wrap; 
+      gap: 15px; 
     }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
+    
+    .user-box { display: flex; align-items: center; gap: 10px; }
+    select { background: #2a2e39; color: #fff; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; font-weight: bold; }
+    
+    /* شريط التنقل بين التبويبات */
+    .nav-tabs {
       display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    /* Header */
-    header {
+      gap: 10px;
       background-color: var(--card-bg);
-      padding: 15px 20px;
+      padding: 10px 20px;
       border-bottom: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
-
-    header h1 {
-      font-size: 1.2rem;
+    .tab-btn {
+      background: #2a2e39;
       color: #fff;
-    }
-
-    /* Ticker Tape Widget */
-    .ticker-container {
-      width: 100%;
-      height: 46px;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    /* Main Dashboard Grid */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 15px;
-      padding: 15px;
-      flex: 1;
-    }
-
-    @media (max-width: 900px) {
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Card Panels */
-    .panel {
-      background-color: var(--card-bg);
-      border-radius: 8px;
       border: 1px solid var(--border-color);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .panel-header {
-      padding: 12px 15px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
       font-weight: bold;
-      border-bottom: 1px solid var(--border-color);
-      background-color: rgba(255, 255, 255, 0.02);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
     }
 
-    .chart-panel {
-      min-height: 550px;
-    }
+    .container { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 20px; }
+    .panel { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; }
+    
+    .tab-content { display: none; flex-direction: column; gap: 20px; }
+    .tab-content.active { display: flex; }
 
-    .watchlist-panel {
-      height: 100%;
-      min-height: 550px;
-    }
-
-    /* Financials & Overview Section */
-    .financials-section {
-      padding: 15px;
+    /* شبكة الأسهم المرتفعة يميناً والمنخفضة يساراً */
+    .market-split-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      grid-template-columns: 1fr 1fr;
       gap: 15px;
+      margin-top: 15px;
     }
+    @media (max-width: 768px) {
+      .market-split-grid { grid-template-columns: 1fr; }
+    }
+    .market-side-card {
+      background: #131722;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+    }
+    .market-side-card.gainers { border-right: 4px solid var(--green-color); }
+    .market-side-card.losers { border-left: 4px solid var(--red-color); }
 
-    .financials-card {
-      height: 450px;
+    /* الجداول وإعادة الترتيب التفاعلي */
+    .sortable-table { width: 100%; border-collapse: collapse; margin-top: 10px; text-align: right; }
+    .sortable-table th, .sortable-table td { border: 1px solid var(--border-color); padding: 10px; font-size: 0.88rem; }
+    .sortable-table th { 
+      background-color: #2a2e39; 
+      cursor: pointer; 
+      user-select: none;
+      transition: background-color 0.2s;
+      white-space: nowrap;
     }
+    .sortable-table th:hover { background-color: #363c4e; }
+    .sort-icon { font-size: 0.8rem; margin-right: 4px; opacity: 0.6; }
+
+    /* وسوم التحليل والحالات */
+    .badge-ai { background: rgba(155, 81, 224, 0.15); border: 1px solid var(--ai-color); color: #c880ff; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; display: inline-block; }
+    .badge-manual { background: rgba(41, 98, 255, 0.15); border: 1px solid var(--accent-color); color: #82b1ff; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; display: inline-block; }
+    .badge-status { background: rgba(8, 153, 129, 0.15); border: 1px solid var(--green-color); color: #00ffcc; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; }
+
+    /* شبكة المستطيلات والبطاقات المالية */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .metric-card {
+      background: #131722;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+    }
+    .metric-card p { color: #9598a1; font-size: 0.85rem; }
+    .metric-card h4 { font-size: 1.2rem; margin-top: 5px; }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- الهيدر واختيار المستخدم / الصلاحية -->
   <header>
-    <h1>📈 لوحة متابعة السوق السعودي (TASI) والأمريكي (US)</h1>
+    <h1>📈 منصة متابعة وإدارة الأسهم</h1>
+    <div class="user-box">
+      <span>اختيار المستخدم:</span>
+      <select id="userSelect" onchange="changeUser()">
+        <option value="user1">أحمد (مستثمر السوق السعودي - ر.س)</option>
+        <option value="user2">جون (مستثمر السوق الأمريكي - \$)</option>
+        <option value="admin">👑 المسؤول العام (Admin - صلاحيات كاملة)</option>
+      </select>
+    </div>
   </header>
 
-  <!-- 1. Ticker Tape Widget (شريط الأسعار المباشر العلوي) -->
-  <div class="ticker-container">
-    <div class="tradingview-widget-container">
-      <div class="tradingview-widget-container__widget"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-      {
-        "symbols": [
-          { "proName": "TADAWUL:1120", "title": "مصرف الراجحي" },
-          { "proName": "TADAWUL:2222", "title": "أرامكو السعودية" },
-          { "proName": "TADAWUL:7010", "title": "إس تي سي" },
-          { "proName": "NASDAQ:AAPL", "title": "Apple" },
-          { "proName": "NASDAQ:MSFT", "title": "Microsoft" },
-          { "proName": "NASDAQ:NVDA", "title": "NVIDIA" },
-          { "proName": "NASDAQ:TSLA", "title": "Tesla" }
+  <!-- شريط التنقل بين التبويبات الرئيسي -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('operations')">📊 صفحة العمليات وملخص المحفظة</button>
+    <button class="tab-btn" onclick="switchTab('orders')">📋 تبويب الأوامر (شراء / بيع)</button>
+  </div>
+
+  <div class="container">
+    
+    <!-- ================= 1. تبويب العمليات وملخص المحفظة ================= -->
+    <div id="tab-operations" class="tab-content active">
+      
+      <!-- حركة الأسهم المباشرة (المرتفعة يميناً والمنخفضة يساراً) -->
+      <div class="panel">
+        <h3>حركة الأسهم المباشرة</h3>
+        <div class="market-split-grid">
+          <div class="market-side-card gainers">
+            <h4 style="color: var(--green-color); margin-bottom: 10px;">🟢 الأسهم المرتفعة (يمين)</h4>
+            <table class="sortable-table" id="gainersTable">
+              <thead>
+                <tr>
+                  <th onclick="sortTable('gainersTable', 0)">اسم السهم <span class="sort-icon">⇅</span></th>
+                  <th onclick="sortTable('gainersTable', 1)">التغير <span class="sort-icon">⇅</span></th>
+                </tr>
+              </thead>
+              <tbody id="gainersList"></tbody>
+            </table>
+          </div>
+          <div class="market-side-card losers">
+            <h4 style="color: var(--red-color); margin-bottom: 10px;">🔴 الأسهم المنخفضة (يسار)</h4>
+            <table class="sortable-table" id="losersTable">
+              <thead>
+                <tr>
+                  <th onclick="sortTable('losersTable', 0)">اسم السهم <span class="sort-icon">⇅</span></th>
+                  <th onclick="sortTable('losersTable', 1)">التغير <span class="sort-icon">⇅</span></th>
+                </tr>
+              </thead>
+              <tbody id="losersList"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- معلومات الصلاحيات والمستخدم -->
+      <div class="panel">
+        <h2 id="welcomeTitle">مرحباً بك</h2>
+        <p id="roleDescription" style="margin-top: 10px; color: #9598a1;"></p>
+      </div>
+
+      <!-- ملخص المحفظة والتكاليف والتحليلات -->
+      <div class="panel" id="marketDataPanel">
+        <h3 id="panelTitle">ملخص المحفظة وتحليل الأسهم</h3>
+        <div id="portfolioContent" style="margin-top: 15px;"></div>
+      </div>
+
+    </div>
+
+    <!-- ================= 2. تبويب الأوامر المستقل ================= -->
+    <div id="tab-orders" class="tab-content">
+      
+      <div class="panel">
+        <h3>📋 إدارة أوامر التداول (اليومية وأوامر حتى الإلغاء)</h3>
+        <p style="color: #9598a1; font-size: 0.9rem; margin-top: 5px;">استعراض أوامر الشراء والبيع اليومية وأوامر حتى الإلغاء (GTC) بشكل مستقل ومخصص.</p>
+        
+        <div id="ordersContent" style="margin-top: 20px;"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // قاعدة البيانات والمحاكاة لجميع المستخدمين والصلاحيات
+    const systemData = {
+      user1: {
+        name: "أحمد",
+        role: "مستثمر (السوق السعودي - بالريال السعودي)",
+        type: "user",
+        currency: "ر.س",
+        gainers: [
+          { name: "مصرف الراجحي (1120)", change: "+2.40%" },
+          { name: "أرامكو السعودية (2222)", change: "+1.15%" }
         ],
-        "showSymbolLogo": true,
-        "colorTheme": "dark",
-        "isTransparent": false,
-        "displayMode": "adaptive",
-        "locale": "ar_AE"
+        losers: [
+          { name: "الشركة التعاونية (8010)", change: "-0.85%" },
+          { name: "سابك (2010)", change: "-1.30%" }
+        ],
+        portfolioValue: "150,000 ر.س",
+        profit: "+12,400 ر.س",
+        commission: "232.50 ر.س",
+        tax: "34.88 ر.س",
+        stocksDetail: [
+          { symbol: "1120", name: "الراجحي", value: "90,000 ر.س", manual: "اختراق مقاوَمة 84 ر.س", ai: "🤖 اتجاه صاعد قوي" },
+          { symbol: "2222", name: "أرامكو", value: "60,000 ر.س", manual: "توزيعات أرباح مستقرة", ai: "🤖 استقرار وتجميع" }
+        ],
+        dailyBuyOrders: [
+          { id: "B101", symbol: "1120", name: "الراجحي", shares: 100, price: "83.50 ر.س", status: "معلق (نشط)" }
+        ],
+        dailySellOrders: [
+          { id: "S101", symbol: "2222", name: "أرامكو", shares: 200, price: "27.80 ر.س", status: "معلق (نشط)" }
+        ],
+        gtcBuyOrders: [
+          { id: "GTC-B1", symbol: "1120", name: "الراجحي", shares: 500, targetPrice: "80.00 ر.س", validity: "حتى الإلغاء" }
+        ],
+        gtcSellOrders: [
+          { id: "GTC-S1", symbol: "2222", name: "أرامكو", shares: 400, targetPrice: "30.00 ر.س", validity: "حتى الإلغاء" }
+        ]
+      },
+      user2: {
+        name: "جون",
+        role: "مستثمر (السوق الأمريكي - بالدولار الأمريكي)",
+        type: "user",
+        currency: "\$",
+        gainers: [
+          { name: "Apple Inc. (AAPL)", change: "+3.10%" },
+          { name: "NVIDIA Corp. (NVDA)", change: "+4.50%" }
+        ],
+        losers: [
+          { name: "Tesla, Inc. (TSLA)", change: "-1.20%" },
+          { name: "Microsoft (MSFT)", change: "-0.45%" }
+        ],
+        portfolioValue: "\$45,200",
+        profit: "+\$3,100",
+        commission: "\$14.99",
+        tax: "\$0.00",
+        stocksDetail: [
+          { symbol: "AAPL", name: "Apple", value: "\$25,200", manual: "انتظار نتائج الربع", ai: "🤖 نمو واحتفاظ" },
+          { symbol: "NVDA", name: "NVIDIA", value: "\$20,000", manual: "استهداف قمة \$140", ai: "🤖 زخم صاعد ممتاز" }
+        ],
+        dailyBuyOrders: [
+          { id: "B201", symbol: "AAPL", name: "Apple", shares: 10, price: "\$182.00", status: "معلق (نشط)" }
+        ],
+        dailySellOrders: [
+          { id: "S201", symbol: "TSLA", name: "Tesla", shares: 5, price: "\$245.00", status: "معلق (نشط)" }
+        ],
+        gtcBuyOrders: [
+          { id: "GTC-B2", symbol: "NVDA", name: "NVIDIA", shares: 15, targetPrice: "\$120.00", validity: "حتى الإلغاء" }
+        ],
+        gtcSellOrders: [
+          { id: "GTC-S2", symbol: "AAPL", name: "Apple", shares: 20, targetPrice: "\$200.00", validity: "حتى الإلغاء" }
+        ]
+      },
+      admin: {
+        name: "المسؤول العام",
+        role: "مدير النظام (صلاحيات مطلقة للاطلاع على المحافظ والأوامر والرسوم ببروز جداول عدة)",
+        type: "admin",
+        gainers: [
+          { name: "🇸🇦 الراجحي (السوق السعودي)", change: "+2.40%" },
+          { name: "🇺🇸 NVIDIA (السوق الأمريكي)", change: "+4.50%" }
+        ],
+        losers: [
+          { name: "🇸🇦 سابك (السوق السعودي)", change: "-1.30%" },
+          { name: "🇺🇸 Tesla (السوق الأمريكي)", change: "-1.20%" }
+        ],
+        allPortfolios: [
+          { user: "أحمد", market: "السوق السعودي", value: "150,000 ر.س", profit: "+12,400 ر.س", commission: "232.50 ر.س", tax: "34.88 ر.س" },
+          { user: "جون", market: "السوق الأمريكي", value: "\$45,200", profit: "+\$3,100", commission: "\$14.99", tax: "\$0.00" }
+        ],
+        allAnalysis: [
+          { user: "أحمد", stock: "الراجحي (1120)", manual: "اختراق مقاوَمة 84 ر.س", ai: "🤖 اتجاه صاعد قوي" },
+          { user: "أحمد", stock: "أرامكو (2222)", manual: "توزيعات أرباح مستقرة", ai: "🤖 استقرار وتجميع" },
+          { user: "جون", stock: "Apple (AAPL)", manual: "انتظار نتائج الربع", ai: "🤖 نمو واحتفاظ" },
+          { user: "جون", stock: "NVIDIA (NVDA)", manual: "استهداف قمة \$140", ai: "🤖 زخم صاعد ممتاز" }
+        ],
+        allDailyBuy: [
+          { user: "أحمد", symbol: "1120", name: "الراجحي", shares: 100, price: "83.50 ر.س" },
+          { user: "جون", symbol: "AAPL", name: "Apple", shares: 10, price: "\$182.00" }
+        ],
+        allDailySell: [
+          { user: "أحمد", symbol: "2222", name: "أرامكو", shares: 200, price: "27.80 ر.س" },
+          { user: "جون", symbol: "TSLA", name: "Tesla", shares: 5, price: "\$245.00" }
+        ],
+        allGtcBuy: [
+          { user: "أحمد", symbol: "1120", name: "الراجحي", shares: 500, targetPrice: "80.00 ر.س" },
+          { user: "جون", symbol: "NVDA", name: "NVIDIA", shares: 15, targetPrice: "\$120.00" }
+        ],
+        allGtcSell: [
+          { user: "أحمد", symbol: "2222", name: "أرامكو", shares: 400, targetPrice: "30.00 ر.س" },
+          { user: "جون", symbol: "AAPL", name: "Apple", shares: 20, targetPrice: "\$200.00" }
+        ]
       }
-      </script>
-    </div>
-  </div>
+    };
 
-  <!-- 2. Main Dashboard (الشارت الرئيسي + قائمة المتابعة) -->
-  <div class="dashboard-grid">
-    
-    <!-- الشارت التفاعلي والمتوسطات المتحركة (Advanced Real-Time Chart) -->
-    <div class="panel chart-panel">
-      <div class="panel-header">
-        <span>الرسم البياني التفاعلي (المتوسطات والتحليل الفني)</span>
-      </div>
-      <div class="tradingview-widget-container" style="height:100%;width:100%">
-        <div id="tradingview_chart" style="height:calc(100% - 32px);width:100%"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-        <script type="text/javascript">
-          new TradingView.widget({
-            "autosize": true,
-            "symbol": "TADAWUL:1120",
-            "interval": "D",
-            "timezone": "Asia/Riyadh",
-            "theme": "dark",
-            "style": "1",
-            "locale": "ar_AE",
-            "toolbar_bg": "#f1f3f6",
-            "enable_publishing": false,
-            "allow_symbol_change": true,
-            "container_id": "tradingview_chart",
-            "studies": [
-              "STD;MA%Ribbon", // متوسطات متحركة
-              "STD;RSI"        // مؤشر القوة النسبية
-            ]
-          });
-        </script>
-      </div>
-    </div>
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tabs .tab-btn').forEach(el => el.classList.remove('active'));
 
-    <!-- قائمة المتابعة المخصصة (Market Overview / Watchlist) -->
-    <div class="panel watchlist-panel">
-      <div class="panel-header">
-        <span>قائمة الأسهم المختارة</span>
-      </div>
-      <div class="tradingview-widget-container" style="height:100%">
-        <div class="tradingview-widget-container__widget" style="height:100%"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
-        {
-          "colorTheme": "dark",
-          "dateRange": "12M",
-          "showChart": true,
-          "locale": "ar_AE",
-          "largeChartUrl": "",
-          "isTransparent": false,
-          "showSymbolLogo": true,
-          "showFloatingTooltip": false,
-          "width": "100%",
-          "height": "100%",
-          "tabs": [
-            {
-              "title": "السوق السعودي",
-              "symbols": [
-                { "s": "TADAWUL:1120", "d": "الراجحي" },
-                { "s": "TADAWUL:2222", "d": "أرامكو" },
-                { "s": "TADAWUL:7010", "d": "STC" },
-                { "s": "TADAWUL:1180", "d": "الأهلي" }
-              ]
-            },
-            {
-              "title": "السوق الأمريكي",
-              "symbols": [
-                { "s": "NASDAQ:AAPL", "d": "Apple" },
-                { "s": "NASDAQ:MSFT", "d": "Microsoft" },
-                { "s": "NASDAQ:NVDA", "d": "NVIDIA" },
-                { "s": "NASDAQ:TSLA", "d": "Tesla" }
-              ]
+      if (tabName === 'operations') {
+        document.getElementById('tab-operations').classList.add('active');
+        document.querySelectorAll('.nav-tabs .tab-btn')[0].classList.add('active');
+      } else if (tabName === 'orders') {
+        document.getElementById('tab-orders').classList.add('active');
+        document.querySelectorAll('.nav-tabs .tab-btn')[1].classList.add('active');
+      }
+    }
+
+    function changeUser() {
+      const selectedId = document.getElementById('userSelect').value;
+      const data = systemData[selectedId];
+
+      document.getElementById('welcomeTitle').innerText = `مرحباً، ${data.name}`;
+      document.getElementById('roleDescription').innerText = `نوع الصلاحية: ${data.role}`;
+
+      // تعبئة جدول الأسهم المرتفعة والمنخفضة
+      const gainersContainer = document.getElementById('gainersList');
+      const losersContainer = document.getElementById('losersList');
+      
+      gainersContainer.innerHTML = '';
+      losersContainer.innerHTML = '';
+
+      data.gainers.forEach(stock => {
+        gainersContainer.innerHTML += `
+          <tr>
+            <td>${stock.name}</td>
+            <td style="color: var(--green-color); font-weight: bold;">${stock.change}</td>
+          </tr>
+        `;
+      });
+
+      data.losers.forEach(stock => {
+        losersContainer.innerHTML += `
+          <tr>
+            <td>${stock.name}</td>
+            <td style="color: var(--red-color); font-weight: bold;">${stock.change}</td>
+          </tr>
+        `;
+      });
+
+      // عرض ملخص المحفظة في تبويب العمليات
+      const portfolioDiv = document.getElementById('portfolioContent');
+      const panelTitle = document.getElementById('panelTitle');
+
+      if (data.type === 'admin') {
+        panelTitle.innerText = "👑 لوحة تحكم المدير: جداول تحليلية مستقلة ومنفصلة لكل الجوانب";
+        
+        portfolioDiv.innerHTML = `
+          <p style="margin-bottom: 15px; color: var(--green-color);">بيانات المحافظ والرسوم والتحليلات مقسمة على عدة جداول تفصيلية:</p>
+
+          <h4 style="margin-bottom: 8px; color: #82b1ff;">1. جدول المحافظ والأرباح للمستثمرين</h4>
+          <table class="sortable-table" id="adminTable1">
+            <thead>
+              <tr>
+                <th onclick="sortTable('adminTable1', 0)">المستثمر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('adminTable1', 1)">السوق <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('adminTable1', 2)">قيمة المحفظة <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('adminTable1', 3)">الأرباح / الخسائر <span class="sort-icon">⇅</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.allPortfolios.map(p => `
+                <tr>
+                  <td>\${p.user}</td>
+                  <td>\${p.market}</td>
+                  <td>\${p.value}</td>
+                  <td style="color: var(--green-color);">\${p.profit}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <h4 style="margin-top: 25px; margin-bottom: 8px; color: #f7a600;">2. جدول الرسوم والعمولات والضرائب</h4>
+          <table class="sortable-table" id="adminTable2">
+            <thead>
+              <tr>
+                <th onclick="sortTable('adminTable2', 0)">المستثمر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('adminTable2', 1)">إجمالي العمولة <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('adminTable2', 2)">إجمالي الضريبة (VAT) <span class="sort-icon">⇅</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.allPortfolios.map(p => `
+                <tr>
+                  <td>\${p.user}</td>
+                  <td style="color: #f7a600;">\${p.commission}</td>
+                  <td style="color: var(--red-color);">\${p.tax}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <h4 style="margin-top: 25px; margin-bottom: 8px; color: var(--ai-color);">3. جدول التحليلات الشاملة (اليدوي والذكاء الاصطناعي)</h4>
+          <table class="sortable-table" id="adminTable3">
+            <thead>
+              <tr>
+                <th onclick="sortTable('adminTable3', 0)">المستثمر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('adminTable3', 1)">السهم <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('adminTable3', 2)">التحليل اليدوي <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('adminTable3', 3)">التحليل المتوقع (AI) <span class="sort-icon">⇅</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.allAnalysis.map(a => `
+                <tr>
+                  <td>\${a.user}</td>
+                  <td><b>\${a.stock}</b></td>
+                  <td><span class="badge-manual">\${a.manual}</span></td>
+                  <td><span class="badge-ai">\${a.ai}</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      } else {
+        panelTitle.innerText = "ملخص تفصيلي للمحفظة والتحليلات المتاحة";
+        
+        let html = `
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <p>قيمة المحفظة المستقلة</p>
+              <h4>${data.portfolioValue}</h4>
+            </div>
+            <div class="metric-card">
+              <p>العائد / الأرباح</p>
+              <h4 style="color: var(--green-color);">${data.profit}</h4>
+            </div>
+            <div class="metric-card" style="border-color: #f7a60044;">
+              <p>إجمالي العمولة</p>
+              <h4 style="color: #f7a600;">${data.commission}</h4>
+            </div>
+            <div class="metric-card" style="border-color: #e54d4244;">
+              <p>إجمالي الضريبة (VAT)</p>
+              <h4 style="color: var(--red-color);">${data.tax}</h4>
+            </div>
+          </div>
+
+          <h4 style="margin-top: 20px; margin-bottom: 10px;">جدول تحليلات أسهم المحفظة (يدوي + AI):</h4>
+          <table class="sortable-table" id="userStockTable">
+            <thead>
+              <tr>
+                <th onclick="sortTable('userStockTable', 0)">رمز السهم <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('userStockTable', 1)">الشركة <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('userStockTable', 2)">القيمة <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('userStockTable', 3)">تحليل السهم (يدوي) <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('userStockTable', 4)">تحليل السهم المتوقع (AI) <span class="sort-icon">⇅</span></th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        data.stocksDetail.forEach(item => {
+          html += `
+            <tr>
+              <td><b>${item.symbol}</b></td>
+              <td>${item.name}</td>
+              <td>${item.value}</td>
+              <td><span class="badge-manual">${item.manual}</span></td>
+              <td><span class="badge-ai">${item.ai}</span></td>
+            </tr>
+          `;
+        });
+
+        html += `</tbody></table>`;
+        portfolioDiv.innerHTML = html;
+      }
+
+      // تعبئة تبويب الأوامر (اليومية وأوامر حتى الإلغاء)
+      const ordersContainer = document.getElementById('ordersContent');
+      if (data.type === 'admin') {
+        ordersContainer.innerHTML = `
+          <h4 style="color: var(--green-color); margin-bottom: 8px;">1. أوامر الشراء اليومية لجميع المستخدمين</h4>
+          <table class="sortable-table" id="admOrd1">
+            <thead>
+              <tr>
+                <th onclick="sortTable('admOrd1', 0)">المستثمر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd1', 1)">رمز السهم <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd1', 2)">اسم الشركة <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd1', 3)">الكمية <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd1', 4)">السعر <span class="sort-icon">⇅</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.allDailyBuy.map(o => `<tr><td>\${o.user}</td><td><b>${o.symbol}</b></td><td>${o.name}</td><td>${o.shares}</td><td>${o.price}</td></tr>`).join('')}
+            </tbody>
+          </table>
+
+          <h4 style="color: var(--red-color); margin-top: 25px; margin-bottom: 8px;">2. أوامر البيع اليومية لجميع المستخدمين</h4>
+          <table class="sortable-table" id="admOrd2">
+            <thead>
+              <tr>
+                <th onclick="sortTable('admOrd2', 0)">المستثمر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd2', 1)">رمز السهم <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd2', 2)">اسم الشركة <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd2', 3)">الكمية <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd2', 4)">السعر <span class="sort-icon">⇅</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.allDailySell.map(o => `<tr><td>\${o.user}</td><td><b>${o.symbol}</b></td><td>${o.name}</td><td>${o.shares}</td><td>${o.price}</td></tr>`).join('')}
+            </tbody>
+          </table>
+
+          <h4 style="color: #2962ff; margin-top: 25px; margin-bottom: 8px;">3. أوامر الشراء حتى الإلغاء (GTC) لجميع المستخدمين</h4>
+          <table class="sortable-table" id="admOrd3">
+            <thead>
+              <tr>
+                <th onclick="sortTable('admOrd3', 0)">المستثمر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd3', 1)">رمز السهم <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd3', 2)">اسم الشركة <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd3', 3)">الكمية <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd3', 4)">سعر الهدف <span class="sort-icon">⇅</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.allGtcBuy.map(o => `<tr><td>\${o.user}</td><td><b>${o.symbol}</b></td><td>${o.name}</td><td>${o.shares}</td><td>${o.targetPrice}</td></tr>`).join('')}
+            </tbody>
+          </table>
+
+          <h4 style="color: #f7a600; margin-top: 25px; margin-bottom: 8px;">4. أوامر البيع حتى الإلغاء (GTC) لجميع المستخدمين</h4>
+          <table class="sortable-table" id="admOrd4">
+            <thead>
+              <tr>
+                <th onclick="sortTable('admOrd4', 0)">المستثمر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd4', 1)">رمز السهم <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd4', 2)">اسم الشركة <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd4', 3)">الكمية <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('admOrd4', 4)">سعر الهدف <span class="sort-icon">⇅</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.allGtcSell.map(o => `<tr><td>\${o.user}</td><td><b>${o.symbol}</b></td><td>${o.name}</td><td>${o.shares}</td><td>${o.targetPrice}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        `;
+      } else {
+        ordersContainer.innerHTML = `
+          <h4 style="color: var(--green-color); margin-bottom: 8px;">أوامر الشراء اليومية</h4>
+          <table class="sortable-table" id="usrBuyOrd">
+            <thead>
+              <tr>
+                <th onclick="sortTable('usrBuyOrd', 0)">رقم الأمر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrBuyOrd', 1)">الرمز <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrBuyOrd', 2)">الشركة <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrBuyOrd', 3)">الكمية <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrBuyOrd', 4)">السعر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrBuyOrd', 5)">الحالة <span class="sort-icon">⇅</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.dailyBuyOrders.map(o => `<tr><td>\${o.id}</td><td><b>${o.symbol}</b></td><td>${o.name}</td><td>${o.shares}</td><td>${o.price}</td><td><span class="badge-status">\${o.status}</span></td></tr>`).join('')}
+            </tbody>
+          </table>
+
+          <h4 style="color: var(--red-color); margin-top: 25px; margin-bottom: 8px;">أوامر البيع اليومية</h4>
+          <table class="sortable-table" id="usrSellOrd">
+            <thead>
+              <tr>
+                <th onclick="sortTable('usrSellOrd', 0)">رقم الأمر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrSellOrd', 1)">الرمز <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrSellOrd', 2)">الشركة <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrSellOrd', 3)">الكمية <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrSellOrd', 4)">السعر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrSellOrd', 5)">الحالة <span class="sort-icon">⇅</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.dailySellOrders.map(o => `<tr><td>\${o.id}</td><td><b>${o.symbol}</b></td><td>${o.name}</td><td>${o.shares}</td><td>${o.price}</td><td><span class="badge-status">\${o.status}</span></td></tr>`).join('')}
+            </tbody>
+          </table>
+
+          <h4 style="color: #2962ff; margin-top: 25px; margin-bottom: 8px;">أوامر الشراء حتى الإلغاء (GTC Buy)</h4>
+          <table class="sortable-table" id="usrGtcBuy">
+            <thead>
+              <tr>
+                <th onclick="sortTable('usrGtcBuy', 0)">رقم الأمر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrGtcBuy', 1)">الرمز <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrGtcBuy', 2)">الشركة <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrGtcBuy', 3)">الكمية <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrGtcBuy', 4)">سعر الهدف <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrGtcBuy', 5)">الصلاحية <span class="sort-icon">⇅</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.gtcBuyOrders.map(o => `<tr><td>\${o.id}</td><td><b>${o.symbol}</b></td><td>${o.name}</td><td>${o.shares}</td><td>${o.targetPrice}</td><td><span class="badge-status">\${o.validity}</span></td></tr>`).join('')}
+            </tbody>
+          </table>
+
+          <h4 style="color: #f7a600; margin-top: 25px; margin-bottom: 8px;">أوامر البيع حتى الإلغاء (GTC Sell)</h4>
+          <table class="sortable-table" id="usrGtcSell">
+            <thead>
+              <tr>
+                <th onclick="sortTable('usrGtcSell', 0)">رقم الأمر <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrGtcSell', 1)">الرمز <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrGtcSell', 2)">الشركة <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrGtcSell', 3)">الكمية <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrGtcSell', 4)">سعر الهدف <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('usrGtcSell', 5)">الصلاحية <span class="sort-icon">⇅</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.gtcSellOrders.map(o => `<tr><td>\${o.id}</td><td><b>${o.symbol}</b></td><td>${o.name}</td><td>${o.shares}</td><td>${o.targetPrice}</td><td><span class="badge-status">\${o.validity}</span></td></tr>`).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+    }
+
+    // دالة الفرز وإعادة الترتيب التفاعلية لجميع أعمدة الجداول
+    function sortTable(tableId, columnIndex) {
+      const table = document.getElementById(tableId);
+      if (!table) return;
+      
+      let switching = true;
+      let dir = "asc"; 
+      let switchcount = 0;
+
+      while (switching) {
+        switching = false;
+        const rows = table.rows;
+
+        for (let i = 1; i < (rows.length - 1); i++) {
+          let shouldSwitch = false;
+          const x = rows[i].getElementsByTagName("TD")[columnIndex];
+          const y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+
+          if (!x || !y) continue;
+
+          let xVal = x.innerText.toLowerCase().replace(/[^\d.-]/g, '') || x.innerText.toLowerCase();
+          let yVal = y.innerText.toLowerCase().replace(/[^\d.-]/g, '') || y.innerText.toLowerCase();
+
+          if (!isNaN(parseFloat(xVal)) && !isNaN(parseFloat(yVal))) {
+            xVal = parseFloat(xVal);
+            yVal = parseFloat(yVal);
+          }
+
+          if (dir === "asc") {
+            if (xVal > yVal) {
+              shouldSwitch = true;
+              break;
             }
-          ]
+          } else if (dir === "desc") {
+            if (xVal < yVal) {
+              shouldSwitch = true;
+              break;
+            }
+          }
         }
-        </script>
-      </div>
-    </div>
 
-  </div>
-
-  <!-- 3. Financials & Earnings Section (تقارير الأرباح والبيانات المالية) -->
-  <div class="financials-section">
-    
-    <!-- الأرباح والبيانات المالية (Financials Widget) -->
-    <div class="panel financials-card">
-      <div class="panel-header">
-        <span>البيانات المالية وتقارير الأرباح والخسائر</span>
-      </div>
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-financials.js" async>
-        {
-          "colorTheme": "dark",
-          "isTransparent": false,
-          "largeChartUrl": "",
-          "displayMode": "regular",
-          "width": "100%",
-          "height": "100%",
-          "symbol": "TADAWUL:1120",
-          "locale": "ar_AE"
+        if (shouldSwitch) {
+          rows[switchcount + 1].parentNode.insertBefore(rows[switchcount + 2], rows[switchcount + 1]);
+          switching = true;
+          switchcount++;
+        } else {
+          if (switchcount === 0 && dir === "asc") {
+            dir = "desc";
+            switching = true;
+          }
         }
-        </script>
-      </div>
-    </div>
+      }
+    }
 
-    <!-- التحليل الفني والمؤشرات (Technical Analysis Widget) -->
-    <div class="panel financials-card">
-      <div class="panel-header">
-        <span>ملخص التقييم الفني والمؤشرات</span>
-      </div>
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
-        {
-          "interval": "1D",
-          "width": "100%",
-          "isTransparent": false,
-          "height": "100%",
-          "symbol": "TADAWUL:1120",
-          "showIntervalTabs": true,
-          "displayMode": "single",
-          "locale": "ar_AE",
-          "colorTheme": "dark"
-        }
-        </script>
-      </div>
-    </div>
-
-  </div>
-
+    // التشغيل التلقائي عند بدء التحميل
+    changeUser();
+  </script>
 </body>
 </html>
