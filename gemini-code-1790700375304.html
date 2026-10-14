@@ -46,7 +46,48 @@
 </head>
 <body class="p-3 md:p-6 text-slate-200">
 
-    <!-- 1. SECURE LOGIN SECTION -->
+    <!-- 1. FIRST TIME INITIAL SETUP FORM (شاشة إعداد المدير الأساسي لأول مرة) -->
+    <div id="setup-container" class="hidden flex items-center justify-center min-h-[90vh]">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="inline-flex p-3.5 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-400 mb-3 shadow-lg">
+                    <i data-lucide="user-plus" class="w-8 h-8"></i>
+                </div>
+                <h1 class="text-2xl font-bold tracking-wide text-white">مرحباً بك في PortoFlow Pro</h1>
+                <p class="text-xs text-emerald-400 font-semibold mt-1.5">إعداد حساب المدير الأساسي للنظام (للمرة الأولى)</p>
+            </div>
+
+            <div class="glass-panel p-8">
+                <div class="space-y-4 text-xs">
+                    <div>
+                        <label class="block text-slate-300 mb-1.5 font-medium">اختر اسم المستخدم للمدير</label>
+                        <input type="text" id="setup-username" placeholder="مثال: admin" 
+                            class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-300 mb-1.5 font-medium">اختر كلمة المرور</label>
+                        <input type="password" id="setup-password" placeholder="••••••••" 
+                            class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-300 mb-1.5 font-medium">تأكيد كلمة المرور</label>
+                        <input type="password" id="setup-password-confirm" placeholder="••••••••" 
+                            class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                    </div>
+
+                    <button type="button" onclick="saveInitialAdmin()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 text-sm cursor-pointer mt-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        <span>حفظ وإنشاء الحساب</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 2. LOGIN SECTION (شاشة تسجيل الدخول الاعتيادية) -->
     <div id="login-container" class="flex items-center justify-center min-h-[90vh]">
         <div class="w-full max-w-md">
             <div class="text-center mb-8">
@@ -54,7 +95,7 @@
                     <i data-lucide="shield-check" class="w-8 h-8"></i>
                 </div>
                 <h1 class="text-2xl font-bold tracking-wide text-white">نظام إدارة المحافظ الاستثمارية</h1>
-                <p class="text-xs text-indigo-400 font-semibold mt-1.5">تسجيل الدخول الآمن (اسم المستخدم وكلمة المرور الخاصة)</p>
+                <p class="text-xs text-indigo-400 font-semibold mt-1.5">تسجيل الدخول للنظام</p>
             </div>
 
             <div class="glass-panel p-8">
@@ -71,7 +112,7 @@
                         <div class="relative">
                             <i data-lucide="user" class="w-4 h-4 absolute right-3.5 top-3 text-slate-500"></i>
                             <input type="text" id="login-username" placeholder="أدخل اسم المستخدم" 
-                                class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pr-10 pl-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all">
+                                class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pr-10 pl-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
                         </div>
                     </div>
 
@@ -80,17 +121,19 @@
                         <div class="relative">
                             <i data-lucide="key" class="w-4 h-4 absolute right-3.5 top-3 text-slate-500"></i>
                             <input type="password" id="login-password" placeholder="••••••••" 
-                                class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pr-10 pl-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all">
+                                class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pr-10 pl-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
                         </div>
                     </div>
 
-                    <button type="button" onclick="processLogin()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 text-sm">
+                    <button type="button" onclick="processLogin()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 text-sm cursor-pointer">
                         <i data-lucide="log-in" class="w-4 h-4"></i>
                         <span>دخول النظام</span>
                     </button>
                     
-                    <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800 text-[11px] text-slate-400 text-center">
-                        البيانات الافتراضية للمدير: <span class="text-indigo-400 font-bold">admin</span> / كلمة المرور: <span class="text-indigo-400 font-bold">admin123</span>
+                    <div class="text-center pt-2">
+                        <button type="button" onclick="resetSystemData()" class="text-[11px] text-slate-500 hover:text-rose-400 underline cursor-pointer">
+                            إعادة ضبط بيانات النظام وحساب المدير
+                        </button>
                     </div>
                 </div>
             </div>
@@ -98,7 +141,7 @@
     </div>
 
 
-    <!-- 2. MAIN APP DASHBOARD CONTAINER -->
+    <!-- 3. MAIN APP DASHBOARD CONTAINER -->
     <div id="main-app-container" class="hidden space-y-6">
         
         <!-- Top Navigation Header -->
@@ -124,38 +167,38 @@
                 <div class="relative">
                     <i data-lucide="search" class="w-4 h-4 absolute right-3.5 top-3 text-slate-400"></i>
                     <input type="text" id="global-search-input" onkeyup="filterAllTables()" placeholder="بحث شامل في النظام..." 
-                        class="w-full bg-slate-900/60 border border-slate-700/60 rounded-xl pr-10 pl-4 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-all">
+                        class="w-full bg-slate-900/60 border border-slate-700/60 rounded-xl pr-10 pl-4 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500">
                 </div>
             </div>
 
             <!-- Tab Controls -->
             <div class="flex items-center gap-3">
                 <div class="flex items-center gap-1.5 bg-slate-900/80 p-1.5 rounded-xl border border-slate-800">
-                    <button type="button" onclick="switchTab('dashboard')" id="tab-dashboard" class="px-3 py-2 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">
+                    <button type="button" onclick="switchTab('dashboard')" id="tab-dashboard" class="px-3 py-2 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 cursor-pointer">
                         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                         <span>لوحة القيادة</span>
                     </button>
-                    <button type="button" onclick="switchTab('operations')" id="tab-operations" class="px-3 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5">
+                    <button type="button" onclick="switchTab('operations')" id="tab-operations" class="px-3 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5 cursor-pointer">
                         <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
                         <span>العمليات</span>
                     </button>
-                    <button type="button" onclick="switchTab('reports')" id="tab-reports" class="px-3 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5">
+                    <button type="button" onclick="switchTab('reports')" id="tab-reports" class="px-3 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5 cursor-pointer">
                         <i data-lucide="file-text" class="w-4 h-4"></i>
                         <span>التقارير والأخبار</span>
                     </button>
-                    <button type="button" onclick="switchTab('members')" id="tab-members" class="px-3 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5">
+                    <button type="button" onclick="switchTab('members')" id="tab-members" class="px-3 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5 cursor-pointer">
                         <i data-lucide="users" class="w-4 h-4"></i>
                         <span>الأعضاء والصلاحيات</span>
                     </button>
                 </div>
 
-                <button type="button" onclick="logoutSystem()" title="تسجيل الخروج" class="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 p-2 rounded-xl border border-rose-500/30 transition-all">
+                <button type="button" onclick="logoutSystem()" title="تسجيل الخروج" class="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 p-2 rounded-xl border border-rose-500/30 transition-all cursor-pointer">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
                 </button>
             </div>
         </header>
 
-        <!-- LIVE TICKERS SECTION: Row 1 (Market Indexes), Row 2 (Portfolio Stocks) -->
+        <!-- LIVE TICKERS SECTION -->
         <div class="space-y-2">
             <!-- Row 1: Market Indexes -->
             <div class="glass-panel-sm rounded-xl overflow-hidden py-2 border-slate-800/80">
@@ -304,7 +347,7 @@
                         <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-400"></i>
                         <span>تسجيل عملية</span>
                     </h2>
-                    <button type="button" id="cancel-edit-btn" onclick="resetTradeForm()" class="hidden text-xs bg-rose-500/20 text-rose-400 px-3 py-1 rounded-lg border border-rose-500/30">إلغاء التعديل</button>
+                    <button type="button" id="cancel-edit-btn" onclick="resetTradeForm()" class="hidden text-xs bg-rose-500/20 text-rose-400 px-3 py-1 rounded-lg border border-rose-500/30 cursor-pointer">إلغاء التعديل</button>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4 text-xs">
@@ -344,7 +387,7 @@
                         <input type="number" id="input-tax" min="0" step="0.01" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
                     </div>
                     <div class="lg:col-span-7 flex justify-end mt-2">
-                        <button type="button" onclick="handleAddTransaction()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-6 rounded-lg transition-all flex items-center gap-2">
+                        <button type="button" onclick="handleAddTransaction()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-6 rounded-lg transition-all flex items-center gap-2 cursor-pointer">
                             <i data-lucide="check-circle" class="w-4 h-4"></i>
                             <span id="submit-btn-text">حفظ العملية</span>
                         </button>
@@ -361,7 +404,7 @@
                     </h3>
                     <div class="flex items-center gap-2">
                         <input type="text" id="search-tx-input" onkeyup="filterTxTable()" placeholder="تصفية..." class="bg-slate-900 border border-slate-700/80 rounded-lg px-3 py-1.5 text-xs text-slate-200">
-                        <button type="button" onclick="exportData()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs py-1.5 px-3 rounded-lg border border-slate-700 flex items-center gap-1">
+                        <button type="button" onclick="exportData()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs py-1.5 px-3 rounded-lg border border-slate-700 flex items-center gap-1 cursor-pointer">
                             <i data-lucide="download" class="w-3.5 h-3.5"></i>
                             <span>تصدير Excel/CSV</span>
                         </button>
@@ -395,11 +438,11 @@
                     <input type="month" id="report-month-select" value="2026-10" onchange="renderReports()" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-100">
                 </div>
                 <div class="flex items-center gap-2">
-                    <button type="button" onclick="exportData()" class="bg-emerald-700/80 hover:bg-emerald-600 text-white text-xs py-1.5 px-3 rounded-lg font-medium flex items-center gap-1.5">
+                    <button type="button" onclick="exportData()" class="bg-emerald-700/80 hover:bg-emerald-600 text-white text-xs py-1.5 px-3 rounded-lg font-medium flex items-center gap-1.5 cursor-pointer">
                         <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
                         <span>تصدير Excel</span>
                     </button>
-                    <button type="button" onclick="window.print()" class="bg-rose-700/80 hover:bg-rose-600 text-white text-xs py-1.5 px-3 rounded-lg font-medium flex items-center gap-1.5">
+                    <button type="button" onclick="window.print()" class="bg-rose-700/80 hover:bg-rose-600 text-white text-xs py-1.5 px-3 rounded-lg font-medium flex items-center gap-1.5 cursor-pointer">
                         <i data-lucide="printer" class="w-3.5 h-3.5"></i>
                         <span>طباعة / PDF</span>
                     </button>
@@ -471,11 +514,11 @@
             <div class="glass-panel p-5 mb-5">
                 <h3 class="text-md font-bold text-white mb-3 flex items-center gap-2">
                     <i data-lucide="user-plus" class="w-4 h-4 text-emerald-400"></i>
-                    <span>إضافة عضو جديد للنظام وتحديد الصلاحيات</span>
+                    <span>إضافة مدراء وأعضاء جدد للنظام وتحديد الصلاحيات</span>
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
                     <div>
-                        <label class="block text-slate-400 mb-1">اسم العضو</label>
+                        <label class="block text-slate-400 mb-1">اسم المستخدم</label>
                         <input type="text" id="new-member-name" placeholder="اسم المستخدم" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
                     </div>
                     <div>
@@ -485,15 +528,16 @@
                     <div>
                         <label class="block text-slate-400 mb-1">الدور الوظيفي</label>
                         <select id="new-member-role" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
+                            <option value="مدير النظام">مدير النظام (Admin)</option>
                             <option value="مستثمر">مستثمر</option>
                             <option value="محلل مالي">محلل مالي</option>
                             <option value="مراقب">مراقب</option>
                         </select>
                     </div>
                     <div class="flex items-end">
-                        <button type="button" onclick="addNewMember()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-1.5">
+                        <button type="button" onclick="addNewMember()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer">
                             <i data-lucide="user-check" class="w-4 h-4"></i>
-                            <span>إضافة العضو</span>
+                            <span>إضافة للحسابات</span>
                         </button>
                     </div>
                 </div>
@@ -502,15 +546,16 @@
             <div class="glass-panel p-5">
                 <h3 class="text-md font-bold text-white mb-3 flex items-center gap-2">
                     <i data-lucide="shield-alert" class="w-4 h-4 text-indigo-400"></i>
-                    <span>إدارة الأعضاء والصلاحيات (RBAC) وتحديد الأذونات</span>
+                    <span>إدارة الأعضاء والمدراء والصلاحيات (RBAC)</span>
                 </h3>
-                <p class="text-xs text-slate-400 mb-4">تحديد مستوى الاطلاع أو الاطلاع مع التعديل لكل عضو على وحدات النظام والأسواق.</p>
+                <p class="text-xs text-slate-400 mb-4">تحديد مستوى الاطلاع والتعديل لكل مستخدم على وحدات النظام والأسواق.</p>
                 
                 <div class="overflow-x-auto">
                     <table class="w-full text-xs text-right text-slate-300">
                         <thead class="bg-slate-900/80 text-slate-400 border-b border-slate-800">
                             <tr>
-                                <th class="p-3">اسم العضو / المستخدم</th>
+                                <th class="p-3">اسم المستخدم</th>
+                                <th class="p-3">كلمة المرور</th>
                                 <th class="p-3">الدور</th>
                                 <th class="p-3">صلاحية السوق السعودي (TASI)</th>
                                 <th class="p-3">صلاحية السوق الأمريكي (US)</th>
@@ -532,9 +577,8 @@
         let transactions = [];
         let stockNotes = {};
 
-        let usersDatabase = [
-            { username: 'admin', pass: 'admin123', role: 'مدير النظام', tasi: 'اطلاع وتعديل', us: 'اطلاع وتعديل', ops: 'اطلاع وتعديل' }
-        ];
+        // جلب المستخدمين من الذاكرة المحلية لتخزين البيانات
+        let usersDatabase = JSON.parse(localStorage.getItem('portoflow_users')) || [];
 
         const marketIndexes = [
             { name: 'تداول (TASI)', val: '11,845.20', change: '+42.50', ratio: '+0.36%', isUp: true },
@@ -545,9 +589,53 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
+            
+            // التحقق مما إذا كان هناك مدير مسجل مسبقاً أم هذه أول مرة
+            if (usersDatabase.length === 0) {
+                document.getElementById('login-container').classList.add('hidden');
+                document.getElementById('setup-container').classList.remove('hidden');
+            } else {
+                document.getElementById('setup-container').classList.add('hidden');
+                document.getElementById('login-container').classList.remove('hidden');
+            }
+
             renderMarketTicker();
             renderMembersTable();
         });
+
+        // حفظ حساب المدير الأساسي لأول مرة
+        function saveInitialAdmin() {
+            const user = document.getElementById('setup-username').value.trim();
+            const pass = document.getElementById('setup-password').value;
+            const confirmPass = document.getElementById('setup-password-confirm').value;
+
+            if (!user || !pass) {
+                alert('يرجى إدخال اسم المستخدم وكلمة المرور');
+                return;
+            }
+
+            if (pass !== confirmPass) {
+                alert('كلمتا المرور غير متطابقتين!');
+                return;
+            }
+
+            usersDatabase.push({
+                id: Date.now(),
+                username: user,
+                pass: pass,
+                role: 'مدير النظام',
+                tasi: 'اطلاع وتعديل',
+                us: 'اطلاع وتعديل',
+                ops: 'اطلاع وتعديل'
+            });
+
+            localStorage.setItem('portoflow_users', JSON.stringify(usersDatabase));
+            alert('تم إنشاء حساب المدير بنجاح! يمكنك الآن تسجيل الدخول.');
+
+            document.getElementById('setup-container').classList.add('hidden');
+            document.getElementById('login-container').classList.remove('hidden');
+            document.getElementById('login-username').value = user;
+        }
 
         function processLogin() {
             const usernameInput = document.getElementById('login-username').value.trim();
@@ -566,11 +654,9 @@
             document.getElementById('logged-user-name').innerText = matchedUser.username;
             const roleBadge = document.getElementById('role-badge');
             
-            if (matchedUser.username === 'admin') {
-                roleBadge.innerText = 'مدير النظام (Admin)';
-            } else {
-                roleBadge.innerText = `عضو نظام (${matchedUser.role})`;
-            }
+            roleBadge.innerText = matchedUser.role === 'مدير النظام' 
+                ? 'مدير النظام (Admin)' 
+                : `مستخدم (${matchedUser.role})`;
 
             renderAllViews();
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -583,6 +669,14 @@
             document.getElementById('login-password').value = '';
         }
 
+        function resetSystemData() {
+            if (confirm('هل أنت متأكد من مسح جميع حسابات المستخدمين وإعادة ضبط النظام من جديد؟')) {
+                localStorage.removeItem('portoflow_users');
+                usersDatabase = [];
+                location.reload();
+            }
+        }
+
         function switchTab(tabId) {
             document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
             const target = document.getElementById(`content-${tabId}`);
@@ -592,8 +686,8 @@
                 const btn = document.getElementById(`tab-${id}`);
                 if (btn) {
                     btn.className = id === tabId 
-                        ? "px-3 py-2 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30"
-                        : "px-3 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5";
+                        ? "px-3 py-2 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 cursor-pointer"
+                        : "px-3 py-2 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-1.5 cursor-pointer";
                 }
             });
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -605,7 +699,7 @@
             const role = document.getElementById('new-member-role').value;
 
             if(!name || !pass) {
-                alert('يرجى إدخال اسم العضو وكلمة المرور الخاصة به');
+                alert('يرجى إدخال اسم المستخدم وكلمة المرور');
                 return;
             }
 
@@ -614,12 +708,21 @@
                 return;
             }
 
-            usersDatabase.push({ username: name, pass: pass, role: role, tasi: 'اطلاع وتعديل', us: 'اطلاع فقط', ops: 'اطلاع فقط' });
-            
+            usersDatabase.push({ 
+                id: Date.now(), 
+                username: name, 
+                pass: pass, 
+                role: role, 
+                tasi: 'اطلاع وتعديل', 
+                us: 'اطلاع فقط', 
+                ops: 'اطلاع فقط' 
+            });
+
+            localStorage.setItem('portoflow_users', JSON.stringify(usersDatabase));
             renderMembersTable();
             document.getElementById('new-member-name').value = '';
             document.getElementById('new-member-pass').value = '';
-            alert(`تم إضافة العضو "${name}" بنجاح وأصبح بإمكانه الدخول بكلمة المرور المخصصة له.`);
+            alert(`تم إضافة (${name}) بنجاح.`);
         }
 
         function renderMembersTable() {
@@ -628,6 +731,7 @@
             tbody.innerHTML = usersDatabase.map((m) => `
                 <tr class="hover:bg-slate-800/40 border-b border-slate-800/40">
                     <td class="p-3 font-bold text-white">${m.username}</td>
+                    <td class="p-3 font-mono text-slate-400">${m.pass}</td>
                     <td class="p-3 text-indigo-400">${m.role}</td>
                     <td class="p-3">
                         <select class="bg-slate-900 text-xs rounded p-1 border border-slate-700 text-slate-300">
@@ -650,7 +754,7 @@
                         </select>
                     </td>
                     <td class="p-3 text-center">
-                        <button type="button" onclick="alert('تم حفظ أذونات الصلاحيات للعضو ${m.username}')" class="bg-indigo-600 hover:bg-indigo-500 px-2.5 py-1 rounded text-white text-[11px]">حفظ</button>
+                        <button type="button" onclick="alert('تم حفظ صلاحيات المستخدم ${m.username}')" class="bg-indigo-600 hover:bg-indigo-500 px-2.5 py-1 rounded text-white text-[11px] cursor-pointer">حفظ</button>
                     </td>
                 </tr>
             `).join('');
@@ -769,7 +873,7 @@
                     <td class="p-3">${s.market}</td>
                     <td class="p-3 text-slate-300">أداء إيجابي للسهم مدعوم بمتوسط تكلفة ${s.avgCost.toFixed(2)}.</td>
                     <td class="p-3"><input type="text" id="note-${s.symbol}" value="${stockNotes[s.symbol] || ''}" placeholder="ملاحظة شخصية..." class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-slate-200"></td>
-                    <td class="p-3 text-center"><button type="button" onclick="saveNote('${s.symbol}')" class="bg-indigo-600 hover:bg-indigo-500 px-2 py-1 rounded text-white text-[11px]">حفظ</button></td>
+                    <td class="p-3 text-center"><button type="button" onclick="saveNote('${s.symbol}')" class="bg-indigo-600 hover:bg-indigo-500 px-2 py-1 rounded text-white text-[11px] cursor-pointer">حفظ</button></td>
                 </tr>
             `).join('');
         }
@@ -801,8 +905,8 @@
                         <td class="p-3 font-mono">${t.price.toFixed(2)}</td>
                         <td class="p-3 font-mono font-bold text-white">${totalNet.toFixed(2)}</td>
                         <td class="p-3 text-center flex items-center justify-center gap-2">
-                            <button type="button" onclick="editTx(${t.id})" class="p-1 bg-indigo-500/10 text-indigo-400 rounded"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
-                            <button type="button" onclick="deleteTx(${t.id})" class="p-1 bg-rose-500/10 text-rose-400 rounded"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                            <button type="button" onclick="editTx(${t.id})" class="p-1 bg-indigo-500/10 text-indigo-400 rounded cursor-pointer"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
+                            <button type="button" onclick="deleteTx(${t.id})" class="p-1 bg-rose-500/10 text-rose-400 rounded cursor-pointer"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                         </td>
                     </tr>
                 `;
